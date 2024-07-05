@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1>List of blog posts</h1>
+<ul>
+    {% set blog_section = get_section(path="blog/_index.md") %}
+    {% for page in blog_section.pages %}
+    <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock content %}

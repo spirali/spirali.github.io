@@ -1,0 +1,136 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+header {
+    background: linear-gradient(135deg, #ff6b6b, #feca57);
+    padding: 20px;
+    border-bottom: 1px solid #ff6b6b;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 140px;
+}
+
+nav .nav-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    max-width: 880px;
+}
+
+nav .logo {
+    height: 120px;
+    margin: 10px 25px 10px 0;
+    border-radius: 50%;
+    border: 3px solid white;
+    transition: transform 0.3s ease;
+}
+
+nav .logo:hover {
+    transform: scale(1.05);
+}
+
+nav .blog-title {
+    font-size: 42px;
+    color: white;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    padding: 30px 20px;
+}
+
+.content {
+    max-width: 880px;
+    width: 100%;
+    background: white;
+    padding: 30px;
+    margin: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.post {
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.post h2 {
+    margin-top: 0;
+    color: #ff6b6b;
+    font-size: 28px;
+}
+
+.post-date {
+    color: #888;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+
+.post p {
+    text-align: justify;
+    margin-bottom: 15px;
+}
+
+.post img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 20px 0;
+}
+
+a {
+    color: #ff3b3b;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #ff6b6b;
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    nav {
+        height: auto;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav .nav-content {
+        flex-direction: column;
+    }
+
+    nav .logo {
+        margin: 10px 0;
+    }
+
+    nav .blog-title {
+        font-size: 32px;
+    }
+
+    .content {
+        padding: 20px;
+        margin: 10px;
+    }
+}
+
+pre {
+    padding: 0.5em 0.75em;
+    border-radius: 8px;
+    font-size: 16px;
+}
