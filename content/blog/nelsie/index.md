@@ -12,7 +12,7 @@ Nelsie is a Python library with a Rust backend.
 I will now use a slide from a presentation that
 I have randomly found on SlideShare [[link]](https://www.slideshare.net/slideshow/quantum-gates-235545152/235545152). I have not seen the talk so this is not critique of any particular talk. But lets assume that you are in audience of a talk and now the following slide appears on screen.
 
-<p align="center">
+<p class="center">
 <img src="badexample.png" width="60%"/>
 </p>
 
@@ -29,7 +29,7 @@ you have time to explain what you are drawing.
 
 Consider the following image: Even though you have no context, you know where to focus your attention.
 
-<p align="center">
+<p class="center">
 <img src="blackboard.jpg" width="60%" alt="Screenshot from Faynmans lecture"/>
 </p>
 
@@ -42,47 +42,47 @@ Consider the following sample slides from my Git tutorial. This part explains ho
 This is a fragment of the whole Git tutorial and the audience is already used to that rectangles represent repositories; icons in the corner is the user's avatar; rounded boxes represent commits.
 
 * So let the story begin ... let us a have a fairy and her repository:
-<p align="center">
+<p class="center">
 <img src="git/005.png" width="60%" style="border: 1px solid black"/>
 </p>
 
 * She creates a first commit into her `main` branch:
-<p align="center">
+<p class="center">
 <img src="git/006.png" width="60%" style="border: 1px solid black"/>
 </p>
 
 * She adds two more commits, and `main` branch moves along with those changes. Note that a branch is basically a label to a tree of commits:
-<p align="center">
+<p class="center">
 <img src="git/007.png" width="60%" style="border: 1px solid black"/>
 </p>
 
 * She also adds an experimental code in `dev` branch:
-<p align="center">
+<p class="center">
 <img src="git/008.png" width="60%" style="border: 1px solid black"/>
 </p>
 
 * Now assume that there is a remote repository named `origin`:
-<p align="center">
+<p class="center">
 <img src="git/009.png" width="60%" style="border: 1px solid black"/>
 </p>
 
 * Fairy will push her `main` branch into the `origin` repository:
-<p align="center">
+<p class="center">
 <img src="git/010.png" width="60%" style="border: 1px solid black"/>
 </p>
 
 * Git copies commits into the history of `main` branch:
-<p align="center">
+<p class="center">
 <img src="git/011.png" width="60%" style="border: 1px solid black"/>
 </p>
 
 * A branch `main` in the `origin` repository can be now established.
-<p align="center">
+<p class="center">
 <img src="git/012.png" width="60%" style="border: 1px solid black"/>
 </p>
 
 * Local repository also remembers where `origin`'s `main` is pointing.
-<p align="center">
+<p class="center">
 <img src="git/013.png" width="60%" style="border: 1px solid black"/>
 </p>
 
@@ -91,7 +91,7 @@ And so on ...
 I will not go through the whole scenario. You can find the rest of the slides for this example in [this PDF](git.pdf) (36 slides).
 This scenario ends with the next slide:
 
-<p align="center">
+<p class="center">
 <img src="git/040.png" width="60%" style="border: 1px solid black"/>
 </p>
 
@@ -102,7 +102,7 @@ However, because the problem is told as a story with 36 steps, there is no "imme
 ## Nelsie
 
 
-<p align="center">
+<p class="center">
 <img src="nelsie-logo.jpg" width="20%"/>
 </p>
 
@@ -130,7 +130,7 @@ deck.render("slides.pdf")
 
 Running this Python program creates a file `slides.pdf` with a single page:
 
-<p align="center">
+<p class="center">
 <img src="hello.png" style="border: 1px solid black" width="60%"/>
 </p>
 
@@ -143,7 +143,7 @@ The important thing for us is that OpenRaster preserves layers.
 
 Consider the following examples with an OpenRaster image `logo.ora` with 3 layers. When opened in Krita it looks like this:
 
-<p align="center">
+<p class="center">
 <img src="krita.png" style="border: 1px solid black" width="60%"/>
 </p>
 
@@ -165,7 +165,7 @@ def hello_world(slide):
 
 It then generates the following three PDF pages. Note that we are decoupling the word "slide" from "page" here; a slide in Nelsie can be split into multiple pages.
 
-<p align="center">
+<p class="center">
 <img src="logo1.png" style="border: 1px solid black" width="30%"/>
 <img src="logo2.png" style="border: 1px solid black" width="30%"/>
 <img src="logo3.png" style="border: 1px solid black" width="30%"/>
@@ -186,7 +186,7 @@ To have a more practical example, let us take the following example:
 Suppose we want to explain a classical algorithm [Sieve of Erathostenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
 It would be useful to have slides showing the algorithm step by step:
 
-<p align="center">
+<p class="center">
 <img src="sieve/055.png" style="border: 1px solid black" width="30%"/>
 <img src="sieve/056.png" style="border: 1px solid black" width="30%"/>
 <img src="sieve/057.png" style="border: 1px solid black" width="30%"/>
@@ -243,7 +243,7 @@ def green_box_slide(slide):
 
 ```
 
-<p align="center">
+<p class="center">
 <img src="semaphore/083.png" style="border: 1px solid black" width="30%"/>
 </p>
 
@@ -257,7 +257,7 @@ def semaphore(slide):
     slide.box(width=200, height=200, bg_color=bg_color)
 ```
 
-<p align="center">
+<p class="center">
 <img src="semaphore/083.png" style="border: 1px solid black" width="30%"/>
 <img src="semaphore/084.png" style="border: 1px solid black" width="30%"/>
 <img src="semaphore/085.png" style="border: 1px solid black" width="30%"/>
