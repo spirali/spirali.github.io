@@ -3,14 +3,14 @@ title = "Nelsie: About Focus in Slides"
 date = 2024-07-05
 +++
 
-In technical presentations, maintaining audience focus is crucial yet challenging. This blog post introduces [Nelsie](https://github.com/spirali/nelsie/), a tool designed to for creting complex technical slides. I would like to share insights into why precise control over slide elements is essential and how Nelsie addresses this need.
+In technical presentations, maintaining audience focus is crucial yet challenging. This blog post introduces [Nelsie](https://github.com/spirali/nelsie/), a tool designed for creating complex technical slides. I would like to share insights into why precise control over slide elements is essential and how Nelsie addresses this need.
 Nelsie is a Python library with a Rust backend.
 
 
 ## The Problem of Information Overload
 
 I will now use a slide from a presentation that
-I have randomly found on SlideShare [[link]](https://www.slideshare.net/slideshow/quantum-gates-235545152/235545152). I have not seen the talk so this is not critique of any particular talk. But lets assume that you are in audience of a talk and now the following slide appears on screen.
+I have randomly found on SlideShare [[link]](https://www.slideshare.net/slideshow/quantum-gates-235545152/235545152). I have not seen the talk so this is not a critique of any particular talk. But let's assume that you are in the audience of a talk and now the following slide appears on screen.
 
 <p class="center">
 <img src="badexample.png" width="60%"/>
@@ -39,7 +39,7 @@ Consider the following image: Even though you have no context, you know where to
 A lot of advice on how to create a talk emphasizes that your talk has to tell a story. And this is true for your slides, even if you are presenting technical content.
 
 Consider the following sample slides from my Git tutorial. This part explains how Git remote repositories works.
-This is a fragment of the whole Git tutorial and the audience is already used to that rectangles represent repositories; icons in the corner is the user's avatar; rounded boxes represent commits.
+This is a fragment of the whole Git tutorial and the audience is already used to the fact that rectangles represent repositories; the icon in the corner is the user's avatar; rounded boxes represent commits.
 
 * So let the story begin ... let us a have a fairy and her repository:
 <p class="center">
@@ -86,16 +86,16 @@ This is a fragment of the whole Git tutorial and the audience is already used to
 <img src="git/013.png" width="60%" style="border: 1px solid black"/>
 </p>
 
-And so on ...
+And so on …
 
 I will not go through the whole scenario. You can find the rest of the slides for this example in [this PDF](git.pdf) (36 slides).
-This scenario ends with the next slide:
+This scenario ends with the following slide:
 
 <p class="center">
 <img src="git/040.png" width="60%" style="border: 1px solid black"/>
 </p>
 
-If I were to show you this slide all at once then you would probably also need some time to orient. It is not clear what you should be focus on. Should you try to follow an arrow? read the text?
+If I were to show you this slide all at once then you would probably also need some time to orient. It is not clear what you should be focusing on. Should you try to follow an arrow? Read the text?
 
 However, because the problem is told as a story with 36 steps, there is no "immediate shock" for the audience. I can control where the audience's focus is, because only one part of the story is added in each step.
 
@@ -107,10 +107,9 @@ However, because the problem is told as a story with 36 steps, there is no "imme
 </p>
 
 [Nelsie](https://github.com/spirali/nelsie/) allows you to create slides programmatically using Python. The output is a PDF file or a set of SVG/PNG files.
-The goal of Nelsie is to provide a tool where consecutive manipulation with the slide content is a core feature of the tool, and not something extra.
+The goal of Nelsie is to provide a tool where consecutive manipulation with the slide content is a core feature of the tool, and not an afterthought.
 
-Historical comment: I have created several tools with the same purpose as Nelsie. The last one before Nelsie is [Elsie](https://github.com/spirali/elsie/). It was quite a successful attempt and many slides were created in this tool. However, the biggest problem was the dependency on Inkscape, which caused some performance issues and
-the recent packaging of Inkscape is not very friendly for programmatic usage of Inkscape; so installation was sometimes non-trivial. These problems were solved in Nelsie with a custom renderer written in Rust.
+Historical comment: I have created several tools with the same purpose as Nelsie. The last one before Nelsie is [Elsie](https://github.com/spirali/elsie/). It was quite a successful attempt and many slides were created using this tool. However, the biggest problem was the dependency on Inkscape, which caused some performance issues and the recent packaging of Inkscape is not very friendly for programmatic usage of Inkscape; so installation was sometimes non-trivial. These problems were solved in Nelsie with a custom renderer written in Rust.
 
 ### Hello world
 
@@ -136,7 +135,7 @@ Running this Python program creates a file `slides.pdf` with a single page:
 
 ### Fragmented images
 
-Before we talk about why it makes sense to use a full-featured programming language for creating slides, lets take a step back and look at the step-by-step unveiling of an image. This can be used for slides like the Git tutorial above.
+Before we talk about why it makes sense to use a full-featured programming language for creating slides, let's take a step back and look at the step-by-step unveiling of an image. This can be used for slides like the Git tutorial above.
 
 Fragmenting images works for SVG and OpenRaster images. The OpenRaster format is basically a pack of PNG files; it can be exported from all common image editors (Krita, GIMP).
 The important thing for us is that OpenRaster preserves layers.
@@ -147,7 +146,7 @@ Consider the following examples with an OpenRaster image `logo.ora` with 3 layer
 <img src="krita.png" style="border: 1px solid black" width="60%"/>
 </p>
 
-The suffix of layer names starting with ** is recognized by Nelsie and it determines when a
+The suffix of layer names starting with ** is recognized by Nelsie and it determines when
 a layer is displayed. If the name does not contain two asterisks, it will always be displayed.
 In our example we have 3 layers:
 
@@ -176,7 +175,7 @@ and if, for example, we want to move a cog more to the left, we just modify it i
 
 ### Programming slides
 
-Fragmented images are a powerful tool, but in technical presentation there are often many regularities that are better expressed in programming languages.
+Fragmented images are a powerful tool, but in technical presentations there are often many regularities that are better expressed in programming languages.
 
 Now we can have a long discussion about why to use a full-featured programming language instead of a DSL. My argument is that you often need to repeat something in the slide,
 maybe conditionally skip something, or dynamically import some data.
@@ -226,15 +225,15 @@ def sieve(slide):
         b.box(x=x, y=y, width=50, height=50, bg_color=InSteps(c)).text(str(i + 2))
 ```
 
-We will not go into the details, but an important
+We will not go into the details, but an
 important feature is `InSteps` on the last line.
 
 ### `InSteps` mechanism
 
-`InSteps` is way how to create several steps
+`InSteps` is a way how to create several steps
 of a slide while defining only what is changed.
 
-For explanation purspose, we first create a single slide with just green rectangle in the middle of the slide. We set the width, height, and color. The centering on both axis is default.
+For explanation purposes, we first create a single slide with just a green rectangle in the middle of the slide. We set the width, height, and color. The centering on both axes is the default one.
 
 ```python
 @deck.slide()
@@ -248,7 +247,7 @@ def green_box_slide(slide):
 </p>
 
 Now assume that we want to make a semaphore that changes colors green → orange → red.
-Instead of creating three separated slides, we utilize `InSteps` as follows:
+Instead of creating three separate slides, we utilize `InSteps` as follows:
 
 ```python
 @deck.slide()
@@ -264,9 +263,9 @@ def semaphore(slide):
 </p>
 
 
-This code creates three pages with different background color for each step.
+This code creates three pages with a different background color for each step.
 We set only differences between each step, the things that should remain the same in each step is set just once. For example if we would like to change size of the box in different steps, we can again use `InSteps` instead of a constant value.
 
 ## Final words
 
-Nelsie supports other features related to control revealing of slides, but the purpose of this blog is not to be a user guide for Nelsie, which is available [here](https://spirali.github.io/nelsie/). My point was to show that a having good control over showing elements of slides can tell a better story even in technical presentations, and that Nelsie is designed to lower the barrier to creating such presentations.
+Nelsie supports other features related to controlling slide revealing, but the purpose of this blog is not to be a user guide for Nelsie, which is available [here](https://spirali.github.io/nelsie/). My point was to show that having a good control over showing elements of slides can tell a better story even in technical presentations, and that Nelsie is designed to lower the barrier to creating such presentations.
