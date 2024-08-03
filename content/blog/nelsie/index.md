@@ -1,6 +1,6 @@
 +++
 title = "Nelsie: About Focus in Slides"
-date = 2024-07-05
+date = 2024-08-03
 +++
 
 In technical presentations, maintaining audience focus is crucial yet challenging. This blog post introduces [Nelsie](https://github.com/spirali/nelsie/), a tool designed for creating complex technical slides. I would like to share insights into why precise control over slide elements is essential and how Nelsie addresses this need.
@@ -106,10 +106,14 @@ However, because the problem is told as a story with 36 steps, there is no "imme
 <img src="nelsie-logo.jpg" width="20%"/>
 </p>
 
+I spent some time thinking about how to create slides with the above mentioned properties and tried many tools.
+But it turned out that most of the tools have no or very limited features in this direction. So I started to create
+own tools to solve this problem. The last one is Nelsie:
+
 [Nelsie](https://github.com/spirali/nelsie/) allows you to create slides programmatically using Python. The output is a PDF file or a set of SVG/PNG files.
 The goal of Nelsie is to provide a tool where consecutive manipulation with the slide content is a core feature of the tool, and not an afterthought.
 
-Historical comment: I have created several tools with the same purpose as Nelsie. The last one before Nelsie is [Elsie](https://github.com/spirali/elsie/). It was quite a successful attempt and many slides were created using this tool. However, the biggest problem was the dependency on Inkscape, which caused some performance issues and the recent packaging of Inkscape is not very friendly for programmatic usage of Inkscape; so installation was sometimes non-trivial. These problems were solved in Nelsie with a custom renderer written in Rust.
+Historical comment: I have created several tools with the same purpose as Nelsie. The last one before Nelsie is [Elsie](https://github.com/spirali/elsie/) ([Kobzol's blog post about Elsie](https://kobzol.github.io/presentations/elsie/2021/01/07/elsie-programmable-presentations.html)). It was quite a successful attempt and many slides were created using this tool. However, the biggest problem was the dependency on Inkscape, which caused some performance issues and the recent packaging of Inkscape is not very friendly for programmatic usage of Inkscape; so installation was sometimes non-trivial. These problems were solved in Nelsie with a custom renderer written in Rust.
 
 ### Hello world
 
