@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ada's Blog</title>
+    <link rel="stylesheet" href="https://spirali.github.io/style.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-content">
+                <a href="/"><img src="https://spirali.github.io/logo.jpg" alt="Logo" class="logo"></a>
+                <h1 class="blog-title">Ada's Blog</h1>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content">
+            
+<div class="post">
+    <h1 class="title">
+        Nelsie: About Focus in Slides
+    </h1>
+    <p class="subtitle"><strong>2024-08-03</strong></p>
+    <p>In technical presentations, maintaining audience focus is crucial yet challenging. This blog post introduces <a href="https://github.com/spirali/nelsie/">Nelsie</a>, a tool designed for creating complex technical slides. I would like to share insights into why precise control over slide elements is essential and how Nelsie addresses this need.
+Nelsie is a Python library with a Rust backend.</p>
+<h2 id="the-problem-of-information-overload">The Problem of Information Overload</h2>
+<p>I will now use a slide from a presentation that
+I have randomly found on SlideShare <a href="https://www.slideshare.net/slideshow/quantum-gates-235545152/235545152">[link]</a>. I have not seen the talk so this is not a critique of any particular talk. But let's assume that you are in the audience of a talk and now the following slide appears on screen.</p>
+<p class="center">
+<img src="badexample.png" width="60%"/>
+</p>
+<p>If you are not familiar with the Bloch sphere, you will need some time to orient yourself in the picture.</p>
+<p>What will you do? People are used to reading from top to bottom and from left to right. So you read the title. And then what? Some people will try to follow the arrows, but they do not point in only one direction. Some people will try to read the scattered letters. Some people will probably decipher the rainbow title. What is the result? A room full of people, each focused on a different part of the slide, and the presenter has to spend some time getting them back in sync.</p>
+<h3 id="historical-note">Historical note</h3>
+<p>Let me note that the problem of loss of focus is amplified by the existence of slides, because if you make a classic presentation on a blackboard, you cannot create a complex figure in the blink of an eye.
+You have to spend some time drawing the picture and
+you have time to explain what you are drawing.</p>
+<p>Consider the following image: Even though you have no context, you know where to focus your attention.</p>
+<p class="center">
+<img src="blackboard.jpg" width="60%" alt="Screenshot from Faynmans lecture"/>
+</p>
+<h2 id="slide-story-telling">Slide story telling</h2>
+<p>A lot of advice on how to create a talk emphasizes that your talk has to tell a story. And this is true for your slides, even if you are presenting technical content.</p>
+<p>Consider the following sample slides from my Git tutorial. This part explains how Git remote repositories works.
+This is a fragment of the whole Git tutorial and the audience is already used to the fact that rectangles represent repositories; the icon in the corner is the user's avatar; rounded boxes represent commits.</p>
+<ul>
+<li>So let the story begin ... let us a have a fairy and her repository:</li>
+</ul>
+<p class="center">
+<img src="git/005.png" width="60%" style="border: 1px solid black"/>
+</p>
+<ul>
+<li>She creates a first commit into her <code>main</code> branch:</li>
+</ul>
+<p class="center">
+<img src="git/006.png" width="60%" style="border: 1px solid black"/>
+</p>
+<ul>
+<li>She adds two more commits, and <code>main</code> branch moves along with those changes. Note that a branch is basically a label to a tree of commits:</li>
+</ul>
+<p class="center">
+<img src="git/007.png" width="60%" style="border: 1px solid black"/>
+</p>
+<ul>
+<li>She also adds an experimental code in <code>dev</code> branch:</li>
+</ul>
+<p class="center">
+<img src="git/008.png" width="60%" style="border: 1px solid black"/>
+</p>
+<ul>
+<li>Now assume that there is a remote repository named <code>origin</code>:</li>
+</ul>
+<p class="center">
+<img src="git/009.png" width="60%" style="border: 1px solid black"/>
+</p>
+<ul>
+<li>Fairy will push her <code>main</code> branch into the <code>origin</code> repository:</li>
+</ul>
+<p class="center">
+<img src="git/010.png" width="60%" style="border: 1px solid black"/>
+</p>
+<ul>
+<li>Git copies commits into the history of <code>main</code> branch:</li>
+</ul>
+<p class="center">
+<img src="git/011.png" width="60%" style="border: 1px solid black"/>
+</p>
+<ul>
+<li>A branch <code>main</code> in the <code>origin</code> repository can be now established.</li>
+</ul>
+<p class="center">
+<img src="git/012.png" width="60%" style="border: 1px solid black"/>
+</p>
+<ul>
+<li>Local repository also remembers where <code>origin</code>'s <code>main</code> is pointing.</li>
+</ul>
+<p class="center">
+<img src="git/013.png" width="60%" style="border: 1px solid black"/>
+</p>
+<p>And so on …</p>
+<p>I will not go through the whole scenario. You can find the rest of the slides for this example in <a href="https://spirali.github.io/blog/nelsie/git.pdf">this PDF</a> (36 slides).
+This scenario ends with the following slide:</p>
+<p class="center">
+<img src="git/040.png" width="60%" style="border: 1px solid black"/>
+</p>
+<p>If I were to show you this slide all at once then you would probably also need some time to orient. It is not clear what you should be focusing on. Should you try to follow an arrow? Read the text?</p>
+<p>However, because the problem is told as a story with 36 steps, there is no &quot;immediate shock&quot; for the audience. I can control where the audience's focus is, because only one part of the story is added in each step.</p>
+<h2 id="nelsie">Nelsie</h2>
+<p class="center">
+<img src="nelsie-logo.jpg" width="20%"/>
+</p>
+<p>I spent some time thinking about how to create slides with the above mentioned properties and tried many tools.
+But it turned out that most of the tools have no or very limited features in this direction (e.g. have a precise control when to show/hide something; allow to express gradual changes of a slide in several steps in an ergonomic way).
+So I started to create
+own tools to solve this problem. The last one is Nelsie:</p>
+<p><a href="https://github.com/spirali/nelsie/">Nelsie</a> allows you to create slides programmatically using Python. The output is a PDF file or a set of SVG/PNG files.
+The goal of Nelsie is to provide a tool where consecutive manipulation with the slide content is a core feature of the tool, and not an afterthought.</p>
+<p>Historical comment: I have created several tools with the same purpose as Nelsie. The last one before Nelsie is <a href="https://github.com/spirali/elsie/">Elsie</a> (<a href="https://kobzol.github.io/presentations/elsie/2021/01/07/elsie-programmable-presentations.html">Kobzol's blog post about Elsie</a>). It was quite a successful attempt and many slides were created using this tool. However, the biggest problem was the dependency on Inkscape, which caused some performance issues and the recent packaging of Inkscape is not very friendly for programmatic usage of Inkscape; so installation was sometimes non-trivial. These problems were solved in Nelsie with a custom renderer written in Rust.</p>
+<h3 id="hello-world">Hello world</h3>
+<p>The &quot;hello world&quot; in Nelsie looks like this:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>nelsie </span><span style="color:#b48ead;">import </span><span>SlideDeck
+</span><span>
+</span><span>deck = </span><span style="color:#bf616a;">SlideDeck</span><span>()
+</span><span>
+</span><span>@deck.</span><span style="color:#bf616a;">slide</span><span>()
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">hello_world</span><span>(</span><span style="color:#bf616a;">slide</span><span>):
+</span><span>    slide.</span><span style="color:#bf616a;">text</span><span>(&quot;</span><span style="color:#a3be8c;">Hello world!</span><span>&quot;)
+</span><span>
+</span><span>deck.</span><span style="color:#bf616a;">render</span><span>(&quot;</span><span style="color:#a3be8c;">slides.pdf</span><span>&quot;)
+</span></code></pre>
+<p>Running this Python program creates a file <code>slides.pdf</code> with a single page:</p>
+<p class="center">
+<img src="hello.png" style="border: 1px solid black" width="60%"/>
+</p>
+<h3 id="multi-step-slides-from-images">Multi-step slides from images</h3>
+<p>Before we talk about why it makes sense to use a full-featured programming language to create slides, let's take a step back and look at the step-by-step reveling of an image. This can be used for slides like the Git tutorial above.</p>
+<p>Gradual image revealing works for formats that support layers; in Nelsie: SVG and OpenRaster. The OpenRaster format is basically a pack of PNG files (each layer is a PNG image); it can be exported from all common image editors (Krita, GIMP).</p>
+<p>Consider the following examples with an OpenRaster image <code>logo.ora</code> with 3 layers. When opened in Krita it looks like this:</p>
+<p class="center">
+<img src="krita.png" style="border: 1px solid black" width="60%"/>
+</p>
+<p>The suffix of layer names starting with ** is recognized by Nelsie and it determines when
+a layer is displayed. If the name does not contain two asterisks, it will always be displayed.
+In our example we have 3 layers:</p>
+<ul>
+<li>&quot;Cog&quot; that is shown always</li>
+<li>&quot;Letter N&quot; that is shown from the second step,</li>
+<li>&quot;Fairy&quot; that is shown from the third step</li>
+</ul>
+<p>If we now create the following slide:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>@deck.</span><span style="color:#bf616a;">slide</span><span>()
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">hello_world</span><span>(</span><span style="color:#bf616a;">slide</span><span>):
+</span><span>    slide.</span><span style="color:#bf616a;">image</span><span>(&quot;</span><span style="color:#a3be8c;">logo.ora</span><span>&quot;, </span><span style="color:#bf616a;">width</span><span>=&quot;</span><span style="color:#a3be8c;">80%</span><span>&quot;)
+</span></code></pre>
+<p>It then generates the following three PDF pages. Note that we are decoupling the word &quot;slide&quot; from &quot;page&quot; here; a slide in Nelsie can be split into multiple pages.</p>
+<p class="center">
+<img src="logo1.png" style="border: 1px solid black" width="30%"/>
+<img src="logo2.png" style="border: 1px solid black" width="30%"/>
+<img src="logo3.png" style="border: 1px solid black" width="30%"/>
+</p>
+<p>The advantage is that we only have one source image,
+and if, for example, we want to move a cog more to the left, we just modify it in one place without having to change all the steps one by one.</p>
+<h3 id="programming-slides">Programming slides</h3>
+<p>Fragmented images are a powerful tool, but in technical presentations there are often many regularities that are better expressed in programming languages.</p>
+<p>Now we can have a long discussion about why to use a full-featured programming language instead of a DSL. My argument is that you often need to repeat something in the slide, conditionally skip something, or dynamically import some data.
+And that would lead to a point where DSL becomes a (usually poorly designed) full-featured programming language, so let us skip that and rather use a normal programming language from the start.
+To have a more practical example, let us take the following example:</p>
+<p>Suppose we want to explain a classical algorithm <a href="https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Sieve of Erathostenes</a>.
+It would be useful to have slides showing the algorithm step by step:</p>
+<p class="center">
+<img src="sieve/055.png" style="border: 1px solid black" width="30%"/>
+<img src="sieve/056.png" style="border: 1px solid black" width="30%"/>
+<img src="sieve/057.png" style="border: 1px solid black" width="30%"/>
+<img src="sieve/058.png" style="border: 1px solid black" width="30%"/>
+<img src="sieve/059.png" style="border: 1px solid black" width="30%"/>
+<img src="sieve/060.png" style="border: 1px solid black" width="30%"/>
+<img src="sieve/061.png" style="border: 1px solid black" width="30%"/>
+<img src="sieve/062.png" style="border: 1px solid black" width="30%"/>
+<img src="sieve/063.png" style="border: 1px solid black" width="30%"/>
+<img src="sieve/064.png" style="border: 1px solid black" width="30%"/>
+<img src="sieve/065.png" style="border: 1px solid black" width="30%"/>
+<img src="sieve/066.png" style="border: 1px solid black" width="30%"/>
+</p>
+<p>and so on... the full PDF example is <a href="https://spirali.github.io/blog/nelsie/sieve.pdf">here</a>. Creating such a slide deck by hand would be very tedious and error-prone. The following Python code generated the PDF.
+It may not be the prettiest code in the world, but it has less than one line per page in the resulting PDF.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>@deck.</span><span style="color:#bf616a;">slide</span><span>()
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">sieve</span><span>(</span><span style="color:#bf616a;">slide</span><span>):
+</span><span>    colors = [{</span><span style="color:#d08770;">1</span><span>: [&quot;</span><span style="color:#a3be8c;">#ddd</span><span>&quot;, </span><span style="color:#d08770;">None</span><span>][(i + (i // </span><span style="color:#d08770;">10</span><span>)) % </span><span style="color:#d08770;">2</span><span>]} </span><span style="color:#b48ead;">for </span><span>i </span><span style="color:#b48ead;">in </span><span style="color:#96b5b4;">range</span><span>(</span><span style="color:#d08770;">100</span><span>)]
+</span><span>    step = </span><span style="color:#d08770;">2
+</span><span>    </span><span style="color:#b48ead;">for </span><span>j </span><span style="color:#b48ead;">in </span><span>(</span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">5</span><span>, </span><span style="color:#d08770;">7</span><span>):
+</span><span>        color = &quot;</span><span style="color:#a3be8c;">cyan</span><span>&quot;
+</span><span>        </span><span style="color:#b48ead;">for </span><span>i </span><span style="color:#b48ead;">in </span><span style="color:#96b5b4;">range</span><span>(</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">6</span><span>):
+</span><span>            colors[i * j - </span><span style="color:#d08770;">2</span><span>][step] = &quot;</span><span style="color:#a3be8c;">red</span><span>&quot;
+</span><span>            colors[i * j - </span><span style="color:#d08770;">2</span><span>][step + </span><span style="color:#d08770;">1</span><span>] = color
+</span><span>            step += </span><span style="color:#d08770;">1
+</span><span>            color = &quot;</span><span style="color:#a3be8c;">orange</span><span>&quot;
+</span><span>        </span><span style="color:#b48ead;">for </span><span>i </span><span style="color:#b48ead;">in </span><span style="color:#96b5b4;">range</span><span>(j * </span><span style="color:#d08770;">4 </span><span>- </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">100</span><span>, j):
+</span><span>            colors[i][step] = color
+</span><span>        step += </span><span style="color:#d08770;">1
+</span><span>    b = slide.</span><span style="color:#bf616a;">box</span><span>(</span><span style="color:#bf616a;">width</span><span>=</span><span style="color:#d08770;">500</span><span>, </span><span style="color:#bf616a;">height</span><span>=</span><span style="color:#d08770;">500</span><span>)
+</span><span>    </span><span style="color:#b48ead;">for </span><span>i, c </span><span style="color:#b48ead;">in </span><span style="color:#96b5b4;">enumerate</span><span>(colors):
+</span><span>        x = (i % </span><span style="color:#d08770;">10</span><span>) * </span><span style="color:#d08770;">50
+</span><span>        y = (i // </span><span style="color:#d08770;">10</span><span>) * </span><span style="color:#d08770;">50
+</span><span>        b.</span><span style="color:#bf616a;">box</span><span>(</span><span style="color:#bf616a;">x</span><span>=x, </span><span style="color:#bf616a;">y</span><span>=y, </span><span style="color:#bf616a;">width</span><span>=</span><span style="color:#d08770;">50</span><span>, </span><span style="color:#bf616a;">height</span><span>=</span><span style="color:#d08770;">50</span><span>, </span><span style="color:#bf616a;">bg_color</span><span>=</span><span style="color:#bf616a;">InSteps</span><span>(c)).</span><span style="color:#bf616a;">text</span><span>(</span><span style="color:#bf616a;">str</span><span>(i + </span><span style="color:#d08770;">2</span><span>))
+</span></code></pre>
+<p>We will not go into the details, but an
+important feature is <code>InSteps</code> on the last line.</p>
+<h3 id="insteps-mechanism"><code>InSteps</code> mechanism</h3>
+<p><code>InSteps</code> is a way how to create several steps
+of a slide while defining only what is changed.</p>
+<p>For explanation purposes, we first create a single slide with just a green rectangle in the middle of the slide. We set the width, height, and color. The centering on both axes is the default one.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>@deck.</span><span style="color:#bf616a;">slide</span><span>()
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">green_box_slide</span><span>(</span><span style="color:#bf616a;">slide</span><span>):
+</span><span>    slide.</span><span style="color:#bf616a;">box</span><span>(</span><span style="color:#bf616a;">width</span><span>=</span><span style="color:#d08770;">200</span><span>, </span><span style="color:#bf616a;">height</span><span>=</span><span style="color:#d08770;">200</span><span>, </span><span style="color:#bf616a;">bg_color</span><span>=&quot;</span><span style="color:#a3be8c;">green</span><span>&quot;)
+</span><span>
+</span></code></pre>
+<p class="center">
+<img src="semaphore/083.png" style="border: 1px solid black" width="30%"/>
+</p>
+<p>Now assume that we want to make a semaphore that changes colors green → orange → red.
+Instead of creating three separate slides, we utilize <code>InSteps</code> as follows:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>@deck.</span><span style="color:#bf616a;">slide</span><span>()
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">semaphore</span><span>(</span><span style="color:#bf616a;">slide</span><span>):
+</span><span>    bg_color = </span><span style="color:#bf616a;">InSteps</span><span>({</span><span style="color:#d08770;">1</span><span>: &quot;</span><span style="color:#a3be8c;">green</span><span>&quot;, </span><span style="color:#d08770;">2</span><span>: &quot;</span><span style="color:#a3be8c;">orange</span><span>&quot;, </span><span style="color:#d08770;">3</span><span>: &quot;</span><span style="color:#a3be8c;">red</span><span>&quot;})
+</span><span>    slide.</span><span style="color:#bf616a;">box</span><span>(</span><span style="color:#bf616a;">width</span><span>=</span><span style="color:#d08770;">200</span><span>, </span><span style="color:#bf616a;">height</span><span>=</span><span style="color:#d08770;">200</span><span>, </span><span style="color:#bf616a;">bg_color</span><span>=bg_color)
+</span></code></pre>
+<p class="center">
+<img src="semaphore/083.png" style="border: 1px solid black" width="30%"/>
+<img src="semaphore/084.png" style="border: 1px solid black" width="30%"/>
+<img src="semaphore/085.png" style="border: 1px solid black" width="30%"/>
+</p>
+<p>This code creates three pages with a different background color for each step.
+We set only differences between each step, the things that should remain the same in each step is set just once. For example if we would like to change size of the box in different steps, we can again use <code>InSteps</code> instead of a constant value.</p>
+<h2 id="final-words">Final words</h2>
+<p>Nelsie supports other features related to controlling slide revealing, but the purpose of this blog is not to be a user guide for Nelsie, which is available <a href="https://spirali.github.io/nelsie/">here</a>. My point was to show that having a good control over showing elements of slides can tell a better story even in technical presentations, and that Nelsie is designed to lower the barrier to creating such presentations.</p>
+
+</div>
+
+        </div>
+    </main>
+    <footer>
+        <a href="https://github.com/spirali">
+            <img src="https://spirali.github.io/github.svg" />
+            github.com/spirali
+        </a>
+    </footer>
+</body>
+
+</html>
