@@ -107,7 +107,8 @@ However, because the problem is told as a story with 36 steps, there is no "imme
 </p>
 
 I spent some time thinking about how to create slides with the above mentioned properties and tried many tools.
-But it turned out that most of the tools have no or very limited features in this direction. So I started to create
+But it turned out that most of the tools have no or very limited features in this direction (e.g. have a precise control when to show/hide something; allow to express gradual changes of a slide in several steps in an ergonomic way).
+So I started to create
 own tools to solve this problem. The last one is Nelsie:
 
 [Nelsie](https://github.com/spirali/nelsie/) allows you to create slides programmatically using Python. The output is a PDF file or a set of SVG/PNG files.
@@ -137,12 +138,11 @@ Running this Python program creates a file `slides.pdf` with a single page:
 <img src="hello.png" style="border: 1px solid black" width="60%"/>
 </p>
 
-### Fragmented images
+### Multi-step slides from images
 
-Before we talk about why it makes sense to use a full-featured programming language for creating slides, let's take a step back and look at the step-by-step unveiling of an image. This can be used for slides like the Git tutorial above.
+Before we talk about why it makes sense to use a full-featured programming language to create slides, let's take a step back and look at the step-by-step reveling of an image. This can be used for slides like the Git tutorial above.
 
-Fragmenting images works for SVG and OpenRaster images. The OpenRaster format is basically a pack of PNG files; it can be exported from all common image editors (Krita, GIMP).
-The important thing for us is that OpenRaster preserves layers.
+Gradual image revealing works for formats that support layers; in Nelsie: SVG and OpenRaster. The OpenRaster format is basically a pack of PNG files (each layer is a PNG image); it can be exported from all common image editors (Krita, GIMP).
 
 Consider the following examples with an OpenRaster image `logo.ora` with 3 layers. When opened in Krita it looks like this:
 
@@ -181,8 +181,7 @@ and if, for example, we want to move a cog more to the left, we just modify it i
 
 Fragmented images are a powerful tool, but in technical presentations there are often many regularities that are better expressed in programming languages.
 
-Now we can have a long discussion about why to use a full-featured programming language instead of a DSL. My argument is that you often need to repeat something in the slide,
-maybe conditionally skip something, or dynamically import some data.
+Now we can have a long discussion about why to use a full-featured programming language instead of a DSL. My argument is that you often need to repeat something in the slide, conditionally skip something, or dynamically import some data.
 And that would lead to a point where DSL becomes a (usually poorly designed) full-featured programming language, so let us skip that and rather use a normal programming language from the start.
 To have a more practical example, let us take the following example:
 
