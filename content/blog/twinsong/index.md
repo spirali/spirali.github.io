@@ -32,7 +32,7 @@ One of the first things I wanted to address was the tight coupling of code and o
 
 This simple decoupling has profound effects:
 
-1.  **Preserved History:** Run a cell multiple times? You get multiple outputs. The previous results aren't lost, making comparison easy. Outputs from different kernel runs are not miexd. Also each output cell remembers the code that were executed to get it.
+1.  **Preserved History:** Run a cell multiple times? You get multiple outputs. The previous results aren't lost, making comparison easy. Outputs from different kernel runs are not mixed. Also each output cell remembers the code that was executed to get it.
 2.  **Uninterrupted Code Flow:** Long dataframes or complex plots no longer push your subsequent code cells off the screen. Your code remains contiguous and readable.
 3.  **Clearer State:** The chronological output log provides a clearer picture of what actually ran and in what order.
 
@@ -47,7 +47,7 @@ Real-world analysis rarely fits into a neat, flat list of cells. We think in ter
 
 * **Tree Structure:** You can nest code blocks arbitrarily, much like folders and files. Organize your work into logical sections like `init`, `data_processing`, `modeling`, etc.
 * **Batch Evaluation:** Run an entire subtree (e.g., everything under `init`) with a single command – no more manually stepping through setup cells.
-* **Hierarchical Scoping:** This is crucial. By default, nested blocks see variables from their parents. However, you can designate a block to have its **"Own Scope"**. Variables created within that block *stay local* to it, preventing accidental pollution of the global or parent namespaces – a common source of bugs in traditional notebooks[^1].
+* **Hierarchical Scoping:** This is crucial. By default, nested blocks see variables from their parents. However, you can designate a block to have its **"Private Scope"**. Variables created within that block *stay local* to it, preventing accidental pollution of the global or parent namespaces – a common source of bugs in traditional notebooks[^1].
 
 <p class="center">
 <img src="screenshot2.png" width="80%"/>
@@ -72,7 +72,7 @@ Collaboration is often painful with notebooks. Twinsong aims to ease this:
 
 * **Git-Friendly Format:** Crucially, code and the outputs from different "Runs" live in separate files. This means cleaner diffs – changes to code don't conflict with changes in output, and you can choose to version only the code or specific runs. Twinsong data are also stored in TOML format, which provides easier merge conflict resolution compared to JSON.
 
-Under the hood, Twinsong uses a Rust-based backend for performance and reliability. The Python kernel implementation is deliberately "clean" – it avoids loading Python modules itself. Since Python can load only a single version of each package, you will get into a trouble in Jupyter when your code wants to use different version than kernel.
+Under the hood, Twinsong uses a Rust-based backend for performance and reliability. The Python kernel implementation is deliberately "clean" – it avoids loading Python modules itself. Since Python can load only a single version of each package, you will get into a trouble in Jupyter when your code wants to use a different version of a package than the one the kernel uses.
 
 ## Experimental, But Evolving
 
@@ -91,7 +91,7 @@ Explore the concepts, see if it fits your workflow, and check out the repository
 
 **[github.com/spirali/twinsong](https://github.com/spirali/twinsong)**
 
-Twinsong is an experiment in rethinking how we interact with code and data. It's born from my own experiences and a belief that we can create more structured, manageable, and reproducible interactive computing environments. I hope it sparks ideas and perhaps even helps you in your own work. Feedback and contributions are welcome!
+Twinsong is an experiment in rethinking how we interact with code and data. Feedback and contributions are welcome!
 
 
 ## Footnotes
@@ -103,4 +103,5 @@ Twinsong is an experiment in rethinking how we interact with code and data. It's
 	for item in [1, 2, 3]:
 	    total_sum += item
 	```
+	
 	The answer is two variables: `total_sum` and `item`. In notebooks, you typically don't want variable item polluting your global namespace, but it does anyway. Twinsong's scoping system helps address this issue.
