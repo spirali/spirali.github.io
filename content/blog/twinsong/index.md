@@ -107,10 +107,10 @@ Twinsong is an experiment in rethinking how we interact with code and data. Feed
 
 [^1]: How many global variables does evaluation of the following cell create?
 
-	```python
-	total_sum = 0
-	for item in [1, 2, 3]:
-	    total_sum += item
-	```
+```python
+total_sum = 0
+for item in [1, 2, 3]:
+	total_sum += item
+```
 	
-	The answer is two variables: `total_sum` and `item`. In notebooks, you typically don't want variable item polluting your global namespace, but it does anyway. Twinsong's scoping system helps address this issue.
+The answer is two variables: `total_sum` and `item`. In notebooks, you typically don't want variable item polluting your global namespace, but it does anyway. Twinsong's scoping system helps address this issue.
