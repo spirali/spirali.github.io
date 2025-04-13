@@ -1,6 +1,6 @@
 +++
 title = "Twinsong: Breaking the Constraints of Linear Notebook Environments"
-date = 2025-04-06
+date = 2025-04-13
 +++
 
 Interactive notebooks, like Jupyter, have become indispensable tools for data scientists, researchers, and developers. They offer a fantastic environment for exploration, experimentation, and sharing results. However, as workflows become more complex, many of us start bumping into the limitations inherent in their traditional linear, cell-based structure.
@@ -37,7 +37,7 @@ This simple decoupling has profound effects:
 3.  **Clearer State:** The chronological output log provides a clearer picture of what actually ran and in what order.
 
 <p class="center">
-<img src="screenshot1.png" width="80%"/>
+<img src="screenshot1.png" width="100%"/>
 </p>
 
 
@@ -47,12 +47,21 @@ Real-world analysis rarely fits into a neat, flat list of cells. We think in ter
 
 * **Tree Structure:** You can nest code blocks arbitrarily, much like folders and files. Organize your work into logical sections like `init`, `data_processing`, `modeling`, etc.
 * **Batch Evaluation:** Run an entire subtree (e.g., everything under `init`) with a single command – no more manually stepping through setup cells.
-* **Hierarchical Scoping:** This is crucial. By default, nested blocks see variables from their parents. However, you can designate a block to have its **"Private Scope"**. Variables created within that block *stay local* to it, preventing accidental pollution of the global or parent namespaces – a common source of bugs in traditional notebooks[^1].
+* **Hierarchical Scoping:** By default, nested blocks see variables from their parents. However, you can designate a block to have its **"Private Scope"**. Variables created within that block *stay local* to it, preventing accidental pollution of the global or parent namespaces – a common source of bugs in traditional notebooks[^1].
 
 <p class="center">
-<img src="screenshot2.png" width="80%"/>
+<img src="screenshot2.png" width="60%"/>
 </p>
 
+### Example of Scoping
+
+Consider the notebook structure in the screenshot:
+
+* Executing the `init` block defines `pd` (pandas alias) and `iris` (DataFrame) in the parent `project` scope.
+* The `main` block, marked with a "bubble" icon, has a **Private Scope**.
+* When the code within `main` runs, it successfully accesses `iris` from its parent (`project`) scope.
+* However, the newly created `means` variable exists *only* within the private scope of `main` (and any potential children it might have).
+* Therefore, `means` is *not* accessible from the `project` scope or other branches. This localization is key to preventing variable name collisions and keeping different analysis steps cleanly separated.
 
 ## Managing Runs and Understanding State
 
@@ -63,7 +72,7 @@ Twinsong introduces a couple more features to aid complex workflows:
 
 
 <p class="center">
-<img src="screenshot3.png" width="80%"/>
+<img src="screenshot3.png" width="100%"/>
 </p>
 
 ## Collaboration and Implementation
