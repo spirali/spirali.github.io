@@ -1,6 +1,8 @@
 +++
 title = "Music Theory from Basic Principles (Part 1)"
 date = 2025-06-06
+[extra]
+  katex = true
 +++
 
 As a child, I played guitar for a few years. I was also supposed to visit music theory. But the theory teacher was unable to explain why I needed it. So I skipped the theory classes completely. Last year I started to play cello and thought it may be a good idea to give music theory a second chance. Moreover, compared to my childhood, I now have a PhD in computer science, so hopefully I am more ready for understanding theories.
@@ -9,7 +11,7 @@ I tried to read some books, papers, and watch videos, but it was quite hard for 
 
 
 <p class="center">
-<img src="lhcpiano.jpeg" width="60%"/><br/>
+<img src="lhcpiano.jpeg" width="40%"/><br/>
 <i>ChatGPT's visualization of a piano produced by LHC</i>
 </p>
 
@@ -19,7 +21,9 @@ I am aware that music is about emotions and cannot be fully captured formally. I
 
 In other words, I aim to give a few elementary principles, explain where they come from, and then derive music theory from these principles without introducing new, unexplained things along the way.
 
-I am not a music theory expert; there are probably many mistakes. This text summarizes my understanding so far. Except for a few exceptions, I intentionally avoid standard music theory terminology. Knowing what "minor third" means is good for communication with others, but labels do not bring understanding themselves. Mapping this text to standard terminology is left as an exercise for the reader.
+*Disclaimer1: I am not a music theory expert. This text summarizes my understanding, and is probably full of mistakes. Think of it as an exploration.*
+
+*Discalimer2: I intentionally avoid standard music theory terminology. Mapping this text to standard terminology is left as an exercise for the reader.*
 
 ---
 
@@ -27,7 +31,6 @@ I am not a music theory expert; there are probably many mistakes. This text summ
 
 **Sound** is a vibration that travels as a wave through a medium (like air, water, or solids). It starts with something vibrating (e.g., vocal cords, guitar strings, speaker diaphragm). This creates alternating regions of compression and rarefaction, forming pressure waves that travel through the medium. Eventually, these waves reach a receiver (like your eardrum), which converts the vibrations into neural signals that your brain interprets as sound.
 
----
 
 ## Principles
 
@@ -39,23 +42,24 @@ An object doesn't just vibrate at a single frequency. It vibrates at a primary f
 
 In the following text, we will ignore overtones and represent a tone by a single number (its fundamental frequency).
 
----
 
 ### Principle 2: Human hearing works on a logarithmic scale
 
-Human perception follows (Weber–Fechner law)[https://en.wikipedia.org/wiki/Weber%E2%80%93Fechner_law]; it says that perception works on a logarithmic scale (or “log scale” for short) and hearing is not an exception, both in case of loudness and the pitch perception. We perceive pitch intervals not as linear differences but as ratios. 
+Human perception follows (Weber–Fechner law)[https://en.wikipedia.org/wiki/Weber%E2%80%93Fechner_law]; it says that perception works on a logarithmic scale (or “log scale” for short) and hearing is not an exception, both in case of loudness and the pitch perception. We perceive pitch intervals not as linear differences but as ratios.
 
-Lets have an example of integer numbers between 1-32, on normal (“linear”) scale it 
+What does this mean? On a linear scale, the distance between 1 and 2 is the same as the distance between 10 and 11. On a logarithmic scale, the distance between points is about their ratio. So, the perceived "distance" between 100 Hz and 200 Hz (a 2:1 ratio) is the same as the perceived distance between 1000 Hz and 2000 Hz (also a 2:1 ratio).
+
+Lets have an example of integer numbers between 1-32, on a linear scale it 
 would be the evenly distributed points:
 
 <p class="center">
-<img src="linscale.png" width="100%"/><br/>
+<img src="linscale.png" width="100%"/>
 </p>
 
 On a log scale, the same points look like this:
 
 <p class="center">
-<img src="logscale.png" width="100%"/><br/>
+<img src="logscale.png" width="100%"/>
 </p>
 
 What is difference? We have much bigger spaces between lower points and they become more condensed for bigger numbers. This provides us a “better” resolution for smaller numbers and lower resolution for the bigger numbers. It is useful to be able to perceive a large range of stimuli.
@@ -73,62 +77,123 @@ And this is a crucial property.
 If we move a point by same distance on a linear scale, we are adding the same number (+2, in the following example, all the red arrows have same length):
 
 <p class="center">
-<img src="linmove.png" width="100%"/><br/>
+<img src="linmove.png" width="100%"/>
 </p>
 
 When we want to move by the same distance on a log scale, we have to multiply by the same number, (*2 in the following example, all the green arrows have the same length).
 
 <p class="center">
-<img src="logmove.png" width="100%"/><br/>
+<img src="logmove.png" width="100%"/>
 </p>
 
 We will work almost exclusively on a log scale from now on.
 Thus, our "basic" operation for moving between pitches will be **multiplication**, not addition.
 
----
-
 ### Principle 3: Octave Circularity
 
-Two frequencies with ratio 2:1 (an *octave*) are perceived as "the same" note. If we write our base pitch as {{ katex(body="f") }}, then its octave equivalents are {{ katex(body="\dots, \frac{f}{4}, \frac{f}{2}, f, 2f, 4f, \dots") }}.
-Note they lie evenly spaced in log scale. 
+Two tones are an octave apart if their frequencies have a ratio of {{ katex(body="2:1") }}. We perceive these tones as being, in some sense, "the same" note, just higher or lower. 
 
-Octave circularity seems to be something that we shared with some animals: http://www.neuroscience-of-music.se/eng7.htm.
+If we write our base pitch as {{ katex(body="f") }}, then its octave equivalents are {{ katex(body="\dots, \frac{f}{4}, \frac{f}{2}, f, 2f, 4f, \dots") }}.
+Note they lie evenly spaced in log scale. 
+Let's assume a pitch 440Hz, we can generate “octave equivalent” tones as follows (the yellow point is 440, green arrows are multiplication by 2, blue arrows are division by 2):
+
+<p class="center">
+<img src="octave.png" width="100%"/>
+</p>
+
+Out of curiosity, let us look for the last time on linear scale, and see the same picture in that scale:
+
+
+<p class="center">
+<img src="octave_lin.png" width="100%"/>
+</p>
+
+
+Octave circularity seems to be something that [we shared with some animals](http://www.neuroscience-of-music.se/eng7.htm).
 
 Mathematically speaking, this principle establishes a *cyclic multiplicative group*.
 The cyclic means that it behaves like a wall clock, when the clock arrives to 12, it starts over. Just in our case, our range is not 0-12, but 1-2.
 The mutliplicative in the name just means that we are moving by multiplication rather then addition (as in the case of the clock).
 
-
-
----
-
 ### Principle 4: "Small ratios" sound good together
 
-**\[Human perception]**
+Two tones {{ katex(body="f") }} and {{ katex(body="\frac{a}{b}f") }}, where {{ katex(body="a") }} and {{ katex(body="b") }} are small integers, sound good when played together. Their waveforms align periodically, creating repeating patterns that our brains perceive as pleasant.
 
-Two tones $f$ and $\frac{a}{b}f$, where $a$ and $b$ are small integers, sound good when played together. Their waveforms align periodically, creating repeating patterns that our brains perceive as pleasant.
+For example, {{ katex(body="a = 3") }} , {{ katex(body="b = 2") }}:
 
-For example, $a = 3$, $b = 2$:
+{{ katex(body="\frac{3}{2}") }} sounds harmonious with {{ katex(body="1") }}, because the two sine waves align every few cycles. Let's visualize this. The following image shows a signal with frequency 1. To emphasize repetition, starts of a new period of the sine wave is marked by a blue dot.
 
-{{ katex(body="\frac{3}{2}") }} sounds harmonious with {{ katex(body="1") }}, because the two sine waves align every few cycles.
+<p class="center">
+<img src="sine1.png" width="100%"/>
+</p>
 
-As $a$ and $b$ grow large (e.g. $\frac{211}{111}$), the repetition interval becomes too long and the resulting sound is perceived as dissonant.
+Now assume a signal with frequency {{ katex(body="\frac{3}{2}f") }}, new periods of sine wave is marked by a star.
+
+
+<p class="center">
+<img src="sine3_2.png" width="100%"/>
+</p>
+
+If we take both images one over another we get:
+
+<p class="center">
+<img src="sine1and3_2.png" width="100%"/>
+</p>
+
+Here we can see that blue dots and stars overlap in points: 1, 2, 4, 6 …, so both sine waves start a new period simultaneously from these points. So it should not be surprising that if we add these two waves together we get something that repeats from these points. The green line is the sum of the blue and the orange wave. Blue dots and orange stars still have its original meaning. 
+
+<p class="center">
+<img src="sine1plus3_2.png" width="100%"/>
+</p>
+
+What is the general rule? If we have a tone with frequencies {{ katex(body="f") }} and {{ katex(body="\frac{a}{b}f") }} where {{ katex(body="\frac{a}{b}") }} is a fraction in the simplified form, then the combined signal would have frequency {{ katex(body="\frac{f}{b}") }}.
+
+So if  {{ katex(body="a") }} and  {{ katex(body="b") }} are small integers, then  {{ katex(body="f") }} and  {{ katex(body="\frac{a}{b}f") }} have close frequencies and their combined signal has also relatively close frequency (i.e., the resulting wave repeats similarly as often as the original ones).
+
+
+As  {{ katex(body="a") }} and  {{ katex(body="b") }} grow large (e.g. {{ katex(body="\frac{211}{111}") }}, the repetition interval becomes too long and the resulting sound is perceived as dissonant.
 
 Harmonics (multiples of a fundamental frequency) fit this model well. Ratios like {{ katex(body="\frac{2}{1}") }}, {{ katex(body="\frac{3}{1}") }}, {{ katex(body="\frac{4}{1}") }} sound consonant because their waveforms align neatly with the base tone.
 
----
+For example let us take {{ katex(body="\frac{2}{1}f") }}. The combined signal would looks as follows:
+
+<p class="center">
+<img src="sine1plus2.png" width="100%"/>
+</p>
+
 
 ### Principle 5: Western music adds cultural constraints
 
-* **a)** Ratios use only prime factors 2, 3, 5. So {{ katex(body="\frac{15}{16}") }} is acceptable; {{ katex(body="\frac{14}{15}") }} is not.
-* **b)** Triplets like 1, {{ katex(body="\frac{5}{4}") }}, {{ katex(body="\frac{3}{2}") }} and 1, {{ katex(body="\frac{6}{5}") }}, {{ katex(body="\frac{3}{2}") }} are musically significant (they correspond to ratios 4:5:6 and 10:12:15).
-* **c)** Western music favors 7- and 12-tone scales (likely for cultural/historical reasons).
+For most of this principle, I was not able to find any excact reasons,
+it seems that it is mostly based on historic and cultural reason.
 
----
+
+#### a) Ratios use only prime factors 2, 3, 5.
+
+ So {{ katex(body="\frac{15}{16}") }} is acceptable because {{ katex(body="\frac{15}{16} = \frac{3\times5}{2\times2\times2\times2}") }}. On the other hand {{ katex(body="\frac{14}{15}") }} is not, because {{ katex(body="14 = 2 \times 7") }}.
+
+
+#### b) Two triples are musically significant: {{ katex(body="1, \frac{5}{4}, \frac{3}{2}") }} and {{ katex(body="1, \frac{6}{5},\frac{3}{2}") }}.
+
+The first triplet has the nice property that it has ratios 4:5:6.
+It is also connected to the first harmonics {{ katex(body="2f, 3f, 4f, 5f") }}: The 2 and 4 is whole octaves, 3 if shifted by octave is {{ katex(body="\frac{3}{2}") }}, 5 shifted twice by octave is {{ katex(body="\frac{5}{4}") }}. So {{ katex(body="\frac{3}{2}") }}, {{ katex(body="\frac{5}{4}") }} are connected to the first two harmonics that are not shifted by the whole octave.
+
+For the second triplet, the ratios are 10:12:15.
+{{ katex(body="\frac{3}{2}") }} is the same as in the previous one. And {{ katex(body="\frac{6}{5}") }} can be seen as move by {{ katex(body="\frac{5}{4}") }} in the oposite direction from {{ katex(body="\frac{3}{2}") }}
+
+The blue points are the first triplet, orange points are the second triplet, and the red arrow is multiplication/division by {{ katex(body="\frac{5}{4}") }}.
+
+<p class="center">
+<img src="triplets.png" width="100%"/>
+</p>
+
+
+#### c) Western music favors 7- and 12-tone scales (likely for cultural/historical reasons).
+
 
 ### Principle 6: Human hearing is not perfect
 
-We don’t need exact ratios (like {{ katex(body="\frac{3}{2}") }}) to sound consonant. We only need to get close enough — a fact that will be crucial later, especially when we allow irrational steps in Scale 3.
+We don’t need exact ratios (like {{ katex(body="\frac{3}{2}") }}) to sound consonant. We only need to get "close enough".
 
 ---
 
