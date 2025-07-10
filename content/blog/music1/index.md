@@ -187,47 +187,126 @@ The blue points are the first triplet, orange points are the second triplet, and
 <img src="triplets.png" width="100%"/>
 </p>
 
+The second triplet has also unique property, if we want a sequence of ratios 1, X, Y, 2 such that 
+we want to minimize a denominator that occurs in any pairwise ratios, then X=6/5, and Y=3/2 is the optimal solution:
 
-#### c) Western music favors 7- and 12-tone scales (likely for cultural/historical reasons).
+<table style="border-collapse: collapse; margin: 20px auto;">
+ <thead>
+ <tr style="background-color: #2c5aa0; color: white;">
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;"></th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="1") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{3}{2}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{6}{5}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="2") }}</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr style="background-color: #fff;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{2}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{6}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{1}{2}") }}</td>
+ </tr>
+ <tr style="background-color: #f9f9f9;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{3}{2}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{2}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{4}") }}</td>
+ </tr>
+ <tr style="background-color: #fff;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{6}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{6}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{5}") }}</td>
+ </tr>
+ <tr style="background-color: #f9f9f9;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="2") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="2") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ </tr>
+ </tbody>
+</table>
+
+#### c) Western music favors 7- and 12-tone scales.
 
 
 ### Principle 6: Human hearing is not perfect
 
 We don’t need exact ratios (like {{ katex(body="\frac{3}{2}") }}) to sound consonant. We only need to get "close enough".
 
----
 
 ## Constructing Scales
 
-We want a finite set of tones to play music. From Principle 4, small ratios are good. But if we include only octaves ({{ katex(body="2^n") }}), all tones will be perceived as the same.
+If we want to play music it is quite handy to select some tones (and give them some names). Goal of this section is to to build a set of notes — a **scale**. We'll represent notes as numbers relative to a starting frequency of 1.
 
-So we start with the next best ratio: {{ katex(body="\frac{3}{2}") }}.
+We want a finite set of tones to play music. From Principle 4, small ratios are good. But if we include only octaves, all tones will be perceived as the same.
 
-Let $f$ be the base frequency. We define tones relative to $f$. We drop $f$ from notation and represent the tones by ratios:
+So we start with the next best ratio: {{ katex(body="\frac{3}{2}") }}. So our let our first try be the following set: {{katex(body="\{1, \frac{3}{2}\}")}}. So lets us visualize our first scale, we will name tones as {{ katex(body="t_0") }} and {{ katex(body="t_1") }}. 
 
-```
-Scale: {1, {{ katex(body="\frac{3}{2}") }}, {{ katex(body="(\frac{3}{2})^2") }} \dots}
-```
+<p class="center">
+<img src="miniscale.png" width="100%"/>
+</p>
 
-We map these into the \[1, 2) interval using octave equivalence (divide by 2 as needed). After 12 steps, we find:
+From principle 3 follows that is enough to select tones inside the range of one octave, it means in our notation tones with ratios in range [1, 2) and we will select other tones by circularity of octaves. So we can generate other tones from our minimalistic scale as follows; we are multiplying our initial tones by {{ katex(body="2^n") }} where  {{ katex(body="n \in \mathbf{Z}") }}.
 
-{{ katex(body="(\frac{3}{2})^{12} \approx 2^7") }}
+<p class="center">
+<img src="miniscale2.png" width="100%"/>
+</p>
 
-So {{ katex(body="t\_{12} \approx 1" )}}, and we stop. We call this set **Scale 0**.
+Having just two tones is too poor scale. So we now explore how to add more tones into scale.
 
-It has nice properties:
 
-* Evenly spaced across \[1, 2)
-* Alternating steps of {{ katex(body="\frac{3}{2}") }} and {{ katex(body="\frac{3}{4}") }} (modulo octaves)
+### Approach 1: What if 3/2 could be good enough
 
-But also some problems:
+Let us assume that {{ katex(body="\frac{3}{2}") }} is such a good ratio, that we just work only with it. So how to extend our minimalistic 2 tones scale? We can multiply {{ katex(body="\frac{3}{2}") }} again with {{ katex(body="\frac{3}{2}") }} to get {{ katex(body="\frac{9}{4}") }} and this will be our next tone {{ katex(body="t_2") }}.
 
-* Ratios are not small (e.g., {{ katex(body="\frac{177147}{131072}") }})
-* Extension to other octaves is ambiguous
+<p class="center">
+<img src="tone_9_4.png" width="100%"/>
+</p>
 
----
+Since {{ katex(body="\frac{9}{4}") }} falls innterval [1, 2) we utilize octave circularity andfix it by dividing 2 and get value 9/8 that is inside interval [1,2). In the following figure, the blue arrow represents division by 2; the orange arrows represent multiplication by 3/2. 
 
-## Better Approaches
+<p class="center">
+<img src="tone_9_8.png" width="100%"/>
+</p>
+
+This gives us a procedure on how to create additional tones into our scale. We will take a power of {{ katex(body="\frac{3}{2}") }} and divides it sufficiently times by {{ katex(body="2") }} to get it into interval [1, 2). The following picture shows how we get {{ katex(body="t_3") }}, i.e. 
+{{ katex(body="\frac{(\frac{3}{2})^3}{2}") }}
+
+<p class="center">
+<img src="pyth_t3.png" width="100%"/>
+</p>
+
+Note that we may need to divide by {{ katex(body="2") }} several times for larger numbers, e.g. {{ katex(body="t_4 = \frac{(\frac{3}{2})^4}{2^2}") }}. Therefore in the following figure you can see two blue arrows.
+
+<p class="center">
+<img src="pyth_t4.png" width="100%"/>
+</p>
+
+By this approach we generate new and new tones. So let us do it upto {{ katex(body="t_{11}") }} and we get our scale:
+
+<p class="center">
+<img src="pythscale.png" width="100%"/>
+</p>
+
+You may wonder why we have stopped at {{ katex(body="t_{11}") }}. Let's look what happens for {{ katex(body="t_{11}") }}:
+
+<p class="center">
+<img src="pyth_t12.png" width="100%"/>
+</p>
+
+{{ katex(body="t_{12}") }} is very close to {{katex(body="t_{0}")}}. The reason is that {{ katex(body="t_{11} = (\frac{3}{2})^{12} = \frac{531441}{4096} \approx 129.75") }}. So this number is very close to {{ katex(body="128 = 2^7") }}. So when we are dividing
+by 2 we eventually get relatively close to 1.
+
+Because of this, generating new tones in this we we would be basically starting almost from scratch and generate a similar tones as previous steps ({{ katex(body="t_{i}") }} and {{ katex(body="t_{i+12}") }} are close together).
+
+TODO TODO
+
 
 ### Approach 2: Define goals, then search
 
