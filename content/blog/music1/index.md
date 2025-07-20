@@ -261,7 +261,7 @@ From principle 3 follows that is enough to select tones inside the range of one 
 Having just two tones is too poor scale. So we now explore how to add more tones into scale.
 
 
-### Approach 1: What if 3/2 could be good enough
+## Approach 1: What if 3/2 could be good enough
 
 Let us assume that {{ katex(body="\frac{3}{2}") }} is such a good ratio, that we just work only with it. So how to extend our minimalistic 2 tones scale? We can multiply {{ katex(body="\frac{3}{2}") }} again with {{ katex(body="\frac{3}{2}") }} to get {{ katex(body="\frac{9}{4}") }} and this will be our next tone {{ katex(body="t_2") }}.
 
@@ -305,10 +305,59 @@ by 2 we eventually get relatively close to 1.
 
 Because of this, generating new tones in this we we would be basically starting almost from scratch and generate a similar tones as previous steps ({{ katex(body="t_{i}") }} and {{ katex(body="t_{i+12}") }} are close together).
 
-TODO TODO
+<p class="center">
+<img src="pythshift.png" width="100%"/>
+</p>
 
+So this is it. We have create our first non-trivial scale: {{katex(body="t_{0}, \dots, t_{11}")}}. We name it as **Scale 0**. Lets us summarize properties of the scale:
 
-### Approach 2: Define goals, then search
+* It is quite evenly distributed across the whole interval [1,2).
+* Tones {{katex(body="t_{i}")}} and {{katex(body="t_{i+1}")}} have always ratio {{katex(body="\frac{3}{2}")}} or {{katex(body="\frac{3}{4}")}} (i.e. {{ katex(body="\frac{3}{2}") }} moved by an octave). Specifically:
+{{katex(body="\frac{t_1}{t_0} = \frac{3}{2}")}},
+{{katex(body="\frac{t_2}{t_1} = \frac{3}{4}")}},
+{{katex(body="\frac{t_3}{t_2} = \frac{3}{2}")}},
+{{katex(body="\frac{t_4}{t_3} = \frac{3}{4}")}},
+{{katex(body="\frac{t_5}{t_4} = \frac{3}{2}")}},
+{{katex(body="\frac{t_6}{t_5} = \frac{3}{4}")}},
+{{katex(body="\frac{t_7}{t_6} = \frac{3}{4}")}},
+{{katex(body="\frac{t_8}{t_7} = \frac{3}{2}")}},
+{{katex(body="\frac{t_9}{t_8} = \frac{3}{4}")}},
+{{katex(body="\frac{t_{10}}{t_{9}} = \frac{3}{2}")}},
+{{katex(body="\frac{t_{11}}{t_{10}} = \frac{3}{4}")}}.
+
+We can visualize this as follows. Yellow arrows are multiplication by {{katex(body="\frac{3}{2}")}}. Blue arrows are multiplication by {{katex(body="\frac{3}{4}")}}
+
+<p class="center">
+<img src="pyth_moves.png" width="100%"/>
+</p>
+
+On the other, Scale 0 has some problematic properties. If we look at ratio wrt. the initial tone 
+{{katex(body="t_0")}}:
+
+{{katex(body="t_1 = \frac{3}{2}")}}, 
+{{katex(body="t_2 = \frac{9}{8}")}},
+{{katex(body="t_3 = \frac{27}{16}")}},
+{{katex(body="t_4 = \frac{81}{64}")}},
+{{katex(body="t_5 = \frac{243}{128}")}},
+{{katex(body="t_6 = \frac{729}{512}")}},
+{{katex(body="t_7 = \frac{2187}{2048}")}},
+{{katex(body="t_8 = \frac{6561}{4096}")}},
+{{katex(body="t_9 = \frac{19683}{16384}")}},
+{{katex(body="t_{10} = \frac{59049}{32768}")}},
+{{katex(body="t_{11} = \frac{177147}{131072}")}},
+
+Moreover, if we look order ratios and look on the consecutive ratios we will see
+{{katex(body="\frac{243}{256}")}} and {{katex(body="\frac{2048}{2187}")}}.
+The former is the yellow arrow and the latter is the blue arrow in the following image:
+
+<p class="center">
+<img src="pyth_moves2.png" width="100%"/>
+</p>
+
+We can see all these ratios with large numerators and denominators are against Principle 4.
+In the following section we can try to fix this.
+
+## Approach 2: Define goals, then search
 
 We define conditions:
 
