@@ -1,6 +1,6 @@
 +++
 title = "Music Theory from Basic Principles (Part 1)"
-date = 2025-06-06
+date = 2025-07-20
 [extra]
   katex = true
 +++
@@ -178,7 +178,7 @@ it seems that it is mostly based on historic and cultural reason.
 The first triplet has the nice property that it has ratios 4:5:6.
 It is also connected to the first harmonics {{ katex(body="2f, 3f, 4f, 5f") }}: The 2 and 4 is whole octaves, 3 if shifted by octave is {{ katex(body="\frac{3}{2}") }}, 5 shifted twice by octave is {{ katex(body="\frac{5}{4}") }}. So {{ katex(body="\frac{3}{2}") }}, {{ katex(body="\frac{5}{4}") }} are connected to the first two harmonics that are not shifted by the whole octave.
 
-For the second triplet, the ratios are 10:12:15.
+For the second triplet, the ratios are c.
 {{ katex(body="\frac{3}{2}") }} is the same as in the previous one. And {{ katex(body="\frac{6}{5}") }} can be seen as move by {{ katex(body="\frac{5}{4}") }} in the oposite direction from {{ katex(body="\frac{3}{2}") }}
 
 The blue points are the first triplet, orange points are the second triplet, and the red arrow is multiplication/division by {{ katex(body="\frac{5}{4}") }}.
@@ -359,73 +359,363 @@ In the following section we can try to fix this.
 
 ## Approach 2: Define goals, then search
 
-We define conditions:
+In Approach 1 we have defined a procedure that generates a scale and then we observed the properties. We can we turn it over and we define the desired properties of the scale and then try to find ratios that best match these conditions.
 
-* 7 tones (hard constraint)
-* Use only primes 2, 3, 5
-* Must include a 4:5:6 triplet
-* Denominator $\leq 100$
-* Optimize evenness (log scale)
+We define the following conditions that resulting scale has to hold:
 
-Result: **Scale 1** =
+* We are finding 7 tones (Principle 5c)
+* Ratios can be factored only by 2, 3, 5 (Principle 5a)
+* Each tone is part of a triplet which members is also part of the scale and have ratios 4:5:6. (Principle 5b)
+* Ratios in the scale has to have denominator at most 100. This is generally motivated by Principle 4, but constant 100 is an arbitrary choice to get some bounds on the searched space of ratios.
 
-```
-{1, {{ katex(body="\frac{9}{8}") }}, {{ katex(body="\frac{5}{4}") }}, {{ katex(body="\frac{4}{3}") }}, {{ katex(body="\frac{3}{2}") }}, {{ katex(body="\frac{5}{3}") }}, {{ katex(body="\frac{15}{8}") }}}
-```
+Among all solutions that hold the condition above, we are picking these that has:
 
-Alternate version based on 6:5 gives **Scale 2** =
+* (primary criterium) maximal evenness across the interval [1, 2)
+* (secondary criterium) minimize the maximal denominator that occurs in pairwise ratio of two ratios in the scale.
 
-```
-{1, {{ katex(body="\frac{9}{8}") }}, {{ katex(body="\frac{6}{5}") }}, {{ katex(body="\frac{4}{3}") }}, {{ katex(body="\frac{3}{2}") }}, {{ katex(body="\frac{8}{5}") }}, {{ katex(body="\frac{9}{5}") }}}
-```
+Before we continue, let us clarify the primary optimization criterion. For optimization of spread we need to be able to measure a distance. It would be a bad idea to e.g. compute distance of two ratios a, b as {{ katex(body="a-b") }}. Since we are on a log scale use {{ katex(body="\log_2(a) - \log_2(b) = \log_2(\frac{a}{b})") }}. 
 
-These match well with Western music. Their step sizes cluster around three values:
+We define *evennness of a scale* as the square distance between consecutive points. For this computation, we also add {{ katex(body="\frac{2}{1}") }} into the set, so we are also measuring the distance between the highest ratio in the scale to the next octave.
 
-* {{ katex(body="\frac{16}{15}") }} (short)
-* {{ katex(body="\frac{10}{9}") }}, {{ katex(body="\frac{9}{8}") }} (longer)
+Now if we create a simple program that runs through all combinations of fractions and find the optimal one, we get:
+
+{{ katex(body="1, \frac{9}{8},\frac{5}{4}, \frac{4}{3}, \frac{3}{2}, \frac{5}{3}, \frac{15}{8}")}}
+
+Let us call it **Scale1**. This scale is actually used commonly in western music. If we look at pairwise fractions, the worst denominator is 45, which is much better than 131072 that we have seen in the previous approach.
+
+<table style="border-collapse: collapse; margin: 20px auto;">
+ <thead>
+ <tr style="background-color: #2c5aa0; color: white;">
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;"></th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="1") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{9}{8}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{5}{4}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{4}{3}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{3}{2}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{5}{3}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{15}{8}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="2") }}</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr style="background-color: #fff;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{8}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{2}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{8}{15}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{1}{2}") }}</td>
+ </tr>
+ <tr style="background-color: #f9f9f9;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{9}{8}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{8}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{10}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{27}{32}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{27}{40}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{16}") }}</td>
+ </tr>
+ <tr style="background-color: #fff;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{5}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{10}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{15}{16}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{6}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{2}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{8}") }}</td>
+ </tr>
+ <tr style="background-color: #f9f9f9;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{4}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{32}{27}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{16}{15}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{8}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{32}{45}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{2}{3}") }}</td>
+ </tr>
+ <tr style="background-color: #fff;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{3}{2}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{2}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{6}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{8}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{10}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{4}") }}</td>
+ </tr>
+ <tr style="background-color: #f9f9f9;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{5}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{40}{27}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{10}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{8}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{6}") }}</td>
+ </tr>
+ <tr style="background-color: #fff;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{15}{8}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{15}{8}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{2}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{45}{32}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{8}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{15}{16}") }}</td>
+ </tr>
+ <tr style="background-color: #f9f9f9;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="2") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="2") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{16}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{8}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{2}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{6}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{16}{15}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ </tr>
+ </tbody>
+</table>
+
+In construction of Scale 1, we have used we have utilized only the first triplet from Principle 5b (the third condition for our scale).
+What if we would allow also the second triplet? Then the result would be the same and 
+we also obtain Scale 1. What if we *only* the second triplet (10:12:15)? Then the situation becomes slightly more complex.
+
+We get two optimal results:
+
+A) {{ katex(body="1, \frac{16}{15}, \frac{6}{5}, \frac{4}{3}, \frac{3}{2}, \frac{8}{5}, \frac{16}{9}") }}
+
+B) {{ katex(body="1, \frac{9}{8}, \frac{6}{5}, \frac{27}{20}, \frac{3}{2}, \frac{27}{16}, \frac{9}{5}") }}
+
+Both of them also have 45 as the worst pairwise denominator.  The (A) is again a well recognized scale. 
+For (B), I was not able to find any information about practical usage. My guess is that {{ katex(body="\frac{27}{20}") }} and {{ katex(body="\frac{27}{16}") }} is not a good ratio for basic ratio in scale.
+
+But following a cultural tradition of the western music, we will use a crossover between (A) and (B).
+
+{{ katex(body="1, \frac{9}{8}, \frac{6}{5}, \frac{4}{3}, \frac{3}{2}, \frac{8}{5}, \frac{9}{5}") }}
+
+Let us call it **Scale 2**. It is actually the second best solution for our optimization process right behind (A), and (B).  It has the same evenness as (A) and (B) but it has a slightly worse the worst pairwise denominator: 64.
+
+<table style="border-collapse: collapse; margin: 20px auto;">
+ <thead>
+ <tr style="background-color: #2c5aa0; color: white;">
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;"></th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="1") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{9}{8}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{6}{5}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{4}{3}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{3}{2}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{8}{5}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="\frac{9}{5}") }}</th>
+ <th style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold;">{{ katex(body="2") }}</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr style="background-color: #fff;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{8}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{6}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{2}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{8}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{1}{2}") }}</td>
+ </tr>
+ <tr style="background-color: #f9f9f9;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{9}{8}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{8}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{15}{16}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{27}{32}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{45}{64}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{8}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{16}") }}</td>
+ </tr>
+ <tr style="background-color: #fff;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{6}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{6}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{16}{15}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{10}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{2}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{5}") }}</td>
+ </tr>
+ <tr style="background-color: #f9f9f9;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{4}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{32}{27}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{10}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{8}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{6}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{20}{27}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{2}{3}") }}</td>
+ </tr>
+ <tr style="background-color: #fff;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{3}{2}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{2}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{8}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{15}{16}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{6}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{4}") }}</td>
+ </tr>
+ <tr style="background-color: #f9f9f9;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{8}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{8}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{64}{45}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{6}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{16}{15}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{8}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{5}") }}</td>
+ </tr>
+ <tr style="background-color: #fff;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="\frac{9}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{8}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{2}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{27}{20}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{6}{5}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{8}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{9}{10}") }}</td>
+ </tr>
+ <tr style="background-color: #f9f9f9;">
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center; font-weight: bold; background-color: #2c5aa0; color: white;">{{ katex(body="2") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="2") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{16}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{3}{2}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{4}{3}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{5}{4}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="\frac{10}{9}") }}</td>
+ <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
+ </tr>
+ </tbody>
+</table>
+
+As we have fixed our Scale 1 and Scale 2 and we can explore them more.
+
+If we look of consecutive ratios between consecutive tones, we will see that repeat three ratios:
+
+* {{ katex(body="\frac{16}{15}") }} (green)
+* {{ katex(body="\frac{10}{9}") }} (blue)
+* {{ katex(body="\frac{9}{8}") }} (orange)
+
+Scale 1:
+
+<p class="center">
+<img src="scale1.png" width="100%"/>
+</p>
+
+Scale 2:
+
+<p class="center">
+<img src="scale2.png" width="100%"/>
+</p>
+
+For completeness, let us also look at Scale (A):
+
+<p class="center">
+<img src="scale_a.png" width="100%"/>
+</p>
+
+We can see that it has the same pattern as Scale 2, but shifted. If we start from {{ katex(body="\frac{3}{2}") }} in Scale 2 and cyclically write down the pattern, we get (A). 
+
+
+Visually, you can observe that we have two kind of steps: long ones ({{ katex(body="\frac{10}{9}") }} and {{ katex(body="\frac{9}{8}") }}) and short one ({{ katex(body="\frac{16}{15}") }})
+while the short one is about half in size of the long one. 
+We can also check it numerically in log2 distance: {{ katex(body="\log_2(\frac{9}{8}) \approx 1.170, \log_2(\frac{10}{9}) \approx 1.152, \log_2(\frac{16}{15}) \approx 0.093") }}.
+
+These different steps and shifts will be important in another part of this blog post serie. In this text, we will continue to generate one more scale.
+
 
 ---
 
 ### Approach 3: Equal Steps
 
-What if we use constant multiplicative steps? For 12-tone scale:
+In the previous two approaches we have seen that size of steps between consecutive tones varies.
+Let's try to fix this. So our goal is to create a scale with n tones such that there is the equal distance between consecutive steps, i.e. when we want to get from {{ katex(body="s_i") }} to {{ katex(body="s_{i+1}") }} then we always multiply with the same constant c. Here is example with scale of 4 tones:
 
-```
-Step size = {{ katex(body="\sqrt[12]{2}") }}
-```
+<p class="center">
+<img src="scale_eq4.png" width="100%"/>
+</p>
 
-Then:
+How do we compute the size of the step?  If we have 4 tones, we want to move 4 times to get 2 (= whole octave). This means that we are multiplying:
 
-```
-Scale 3: s_X = {{ katex(body="(\sqrt[12]{2})^X") }} for X in 0..11
-```
+{{ katex(body="1 * c * c * c * c = 2") }}
 
-This is **Equal Temperament** (12-TET).
+that is
 
-* Steps are symmetric
-* Every octave doubles the frequency
-* Approximate good ratios well (e.g., {{ katex(body="\frac{3}{2} \approx s\_7") }})
-* Enables modulation and reuse of instruments
+{{ katex(body="c^4 = 2") }}
 
-This is an **elegant compromise** — we give up exact small ratios in exchange for simplicity, symmetry, and transposability.
+so we get:
 
-A plot at the end shows the differences between Scale 0, 1, 2, and 3. The distances to known good ratios are marked visually, showing how each scale aligns (or doesn't).
+{{ katex(body="c = \sqrt[4]{2}") }}
 
----
+if we abstract 4 to n tones we get:
+
+{{ katex(body="c = \sqrt[n]{2}") }}
+
+This result brings us a problem: for all n > 1: {{katex(body="\sqrt[n]{2}") }} is is not a rational number; i.e. the number cannot be expressed as a fraction {{ katex(body="\frac{a}{b}") }}. Therefore also all tones {{ katex(body="s_i, i >= 1") }} in such a generated scale will not be rational numbers.
+Here saves us Principle 6. We do not need exact ratios, we just need to get close enough.
+
+The question is now what n we should choose. 
+For the beginning, let us say that we want to express {{ katex(body="\frac{3}{2}") }} very closely.
+We can look on all scales where n ranges from [2..30] and look how close is the closest tone to {{ katex(body="\frac{3}{2}") }}.
+(the range up to 30 is arbitrary, but having scale with more than 30 tones is probably impractical).
+
+Let us plot the result:
+
+<p class="center">
+<img src="n_to_3_2.png" width="80%"/>
+</p>
+
+X-axis is the number of tones; Y-axis is squared log distance.
+Note that Y-axis shown in log scale, so we are "zooming" on a smaller numbers. 
+
+From the figure, we see that good candidates for "n" are: 12, 24, 29 tones. 
+But we want to optimize not only for {{ katex(body="\frac{3}{2}") }} but also for other "good ratios". As good ratios, we take the union of ratios in Scale 1 and Scale 2. If we take mean squared distances to all of these ratios we get the the following figure:
+
+<p class="center">
+<img src="n_to_ratios.png" width="80%"/>
+</p>
+
+We can see that good candidates for "n” seems to be 12, 19, 22, 24, 27 and 29.
+
+We choose n = 12 for compatability with Western music (it is aligned with Principle 5c).
+Notes on other “n” values: People in history experiments 19 and 22 tones music scales. 24 tones is used in Middle East music. 27 and 29 seem to be consudered obscure and not praticaly used.
+
+So our Scale 3 is defined as follows:
+
+{{ katex(body="s_i = (\sqrt[12]{2})^i") }} for {{ katex(body="i \in {0, 1, \dots, 11}") }}
+
+For comparison we plot all scales together: Scale 3 = orange circles, Scale 1 = blue triangles, Scale 2 = red crosses, and Scale 0 = green boxes.
+
+<p class="center">
+<img src="four_scales.png" width="100%"/>
+</p>
 
 ## Conclusion
 
-We’ve derived four scales:
-
-* **Scale 0**: Pure {{ katex(body="\frac{3}{2}") }} construction, but messy ratios
-* **Scale 1 & 2**: Just intonation with optimization
-* **Scale 3**: Equal temperament
-
-Next, we will explore:
-
-* What do these step differences *mean*?
-* Can we model musical tension and resolution?
-* How do different scales behave when shifting the base tone?
-
-We’ll also begin mapping these concepts more explicitly to chords, modes, and traditional theory in **Part 2**.
-
+We have derived four scales with different approaches and different properties. In the next part we explore the properties of large and small steps that occur in Scale 1 and 2.
