@@ -24,7 +24,7 @@ In other words, I aim to give a few elementary principles, explain where they co
 *Disclaimer 1: I am not a music theory expert. This text summarizes my understanding, and is probably full of mistakes. Think of it as an exploration.*
 
 *Discalimer 2: I intentionally avoid standard music theory terminology.
-I do this to improve my communication with the people educated in music who are not trained in math. In my experience, when you use a standard term (e.g. "Pythagorean tuning"), people automatically bring hidden assumptions into the debate without realizing it. When we are building anonymous "Scale 0", we are forced to just use only the properties in the text without using undefined knowledge.*
+I do this to improve my communication with the people educated in music who are not trained in math. In my experience, when you use a standard term (e.g. "Pythagorean tuning"), people automatically bring hidden assumptions into the debate without realizing it. When we are building anonymous "Scale 0", we are forced to just use only the properties in the text without using external knowledge.*
 
 ---
 
@@ -345,21 +345,21 @@ The large numbers in these ratios are a problem according to Principle 4. In the
 
 ## Approach 2: Define goals, then search
 
-In Approach 1 we have defined a procedure that generates a scale and then we observed the properties. We can we turn it over and we define the desired properties of the scale and then try to find ratios that best match these conditions.
+In Approach 1, we defined a procedure that generated a scale and then observed its properties. We can turn this around: define the desired properties of the scale and then try to find ratios that best match these conditions.
 
-We define the following conditions that resulting scale has to hold:
+We define the following conditions that the resulting scale must hold:
 
-* We are finding 7 tones (Principle 5c)
-* Ratios can be factored only by 2, 3, 5 (Principle 5a)
-* Each tone is part of a triplet which members is also part of the scale and have ratios 4:5:6. (Principle 5b)
-* Ratios in the scale has to have denominator at most 100. This is generally motivated by Principle 4, but constant 100 is an arbitrary choice to get some bounds on the searched space of ratios.
+  * We are looking for a scale with 7 tones (Principle 5c).
+  * Ratios can be factored only by 2, 3, and 5 (Principle 5a).
+  * Each tone is part of a triplet whose members are also part of the scale and have ratios of 4:5:6 (Principle 5b).
+  * Ratios in the scale must have a denominator of at most 100. This is generally motivated by Principle 4, but the constant 100 is an arbitrary choice to get some bounds on the search space of ratios.
 
-Among all solutions that hold the condition above, we are picking these that has:
+Among all solutions that hold the conditions above, we will pick the one that has:
 
-* (primary criterium) maximal evenness across the interval [1, 2)
-* (secondary criterium) minimize the maximal denominator that occurs in pairwise ratio of two ratios in the scale.
+  * (primary criterion) maximal evenness across the interval [1, 2)
+  * (secondary criterion) the minimal maximal denominator that occurs in any pairwise ratio of two tones in the scale.
 
-Before we continue, let us clarify the primary optimization criterion. For optimization of spread we need to be able to measure a distance. It would be a bad idea to e.g. compute distance of two ratios a, b as {{ katex(body="a-b") }}. Since we are on a log scale use {{ katex(body="\log_2(a) - \log_2(b) = \log_2(\frac{a}{b})") }}. 
+Before we continue, let us clarify the primary optimization criterion. For optimizing spread, we need to be able to measure distance. It would be a bad idea to compute the distance between two ratios a and b as {{ katex(body="a-b") }}. Since we are on a log scale, we use {{ katex(body="\log_2(a) - \log_2(b) = \log_2(\frac{a}{b})") }}.
 
 We define *evennness of a scale* as the square distance between consecutive points. For this computation, we also add {{ katex(body="\frac{2}{1}") }} into the set, so we are also measuring the distance between the highest ratio in the scale to the next octave.
 
