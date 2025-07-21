@@ -6,6 +6,12 @@ date = 2025-07-20
   my_draft = true
 +++
 
+*Disclaimer: I am not a music theory expert. This text summarizes my understanding, and is probably full of mistakes. Think of it as an exploration.*
+
+*Note: I intentionally avoid standard music theory terminology.
+I do this to improve my communication with the people educated in music who are not trained in math. In my experience, when you use a standard term (e.g. "Pythagorean tuning"), people automatically bring hidden assumptions into the debate without realizing it. When we are building anonymous "Scale 0", we are forced to just use only the properties in the text without using external knowledge.*
+
+
 As a child, I played guitar for a few years. I was also supposed to visit music theory. But the theory teacher was unable to explain why I needed it. So I skipped the theory classes completely. Last year I started to play cello and thought it may be a good idea to give music theory a second chance. Moreover, compared to my childhood, I now have a PhD in computer science, so hopefully I am more ready for understanding theories.
 
 I tried to read some books, papers, and watch videos, but it was quite hard for me. They are usually avoid formal definitions or they use the same term in different contexts without proper explanation. My favorite is the argument by piano, "some property holds because on piano …," like a piano were a universal principle in the universe. I always imagine the LHC producing pianos among other elementary particles.
@@ -22,11 +28,6 @@ I am aware that music is about emotions and cannot be fully captured formally. I
 
 In other words, I aim to give a few elementary principles, explain where they come from, and then derive music theory from these principles without introducing new, unexplained things along the way.
 
-*Disclaimer 1: I am not a music theory expert. This text summarizes my understanding, and is probably full of mistakes. Think of it as an exploration.*
-
-*Discalimer 2: I intentionally avoid standard music theory terminology.
-I do this to improve my communication with the people educated in music who are not trained in math. In my experience, when you use a standard term (e.g. "Pythagorean tuning"), people automatically bring hidden assumptions into the debate without realizing it. When we are building anonymous "Scale 0", we are forced to just use only the properties in the text without using external knowledge.*
-
 ---
 
 ## Definitions
@@ -40,7 +41,10 @@ I do this to improve my communication with the people educated in music who are 
 
 An object doesn't just vibrate at a single frequency. It vibrates at a primary frequency called the *fundamental frequency* (or first harmonic), which determines the pitch we perceive. Simultaneously, it vibrates at higher frequencies called *overtones*, often forming a harmonic series: {{ katex(body="f, 2f, 3f, 4f, \dots") }}
 
-> *\[TODO: Add example on my cello; spectrogram of a single tone on an open string]*
+<p class="center">
+<img src="cello.png" width="60%"/><br/>
+<i>The spectrogram when playing a single open string on my cello. y-axis is time; x-axis are frequencies.</i>
+</p>
 
 In the following text, we will ignore overtones and represent a tone by a single number: its fundamental frequency.
 
