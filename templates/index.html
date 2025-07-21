@@ -6,7 +6,9 @@
 <ul>
     {% set blog_section = get_section(path="blog/_index.md") %}
     {% for page in blog_section.pages %}
+    {% if not page.extra.my_draft %}
     <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
+    {% endif %}
     {% endfor %}
 </ul>
 {% endblock content %}

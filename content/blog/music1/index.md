@@ -3,6 +3,7 @@ title = "Music Theory from Basic Principles (Part 1)"
 date = 2025-07-20
 [extra]
   katex = true
+  my_draft = true
 +++
 
 As a child, I played guitar for a few years. I was also supposed to visit music theory. But the theory teacher was unable to explain why I needed it. So I skipped the theory classes completely. Last year I started to play cello and thought it may be a good idea to give music theory a second chance. Moreover, compared to my childhood, I now have a PhD in computer science, so hopefully I am more ready for understanding theories.
@@ -140,7 +141,7 @@ If we overlay the two images, we get:
 Here we can see that the blue dots and stars overlap at points 2, 4, 6, etc. (assuming the first point is at time 0), so both sine waves start a new period simultaneously at these points. It should not be surprising that if we add these two waves together, we get something that repeats from these points. The green line is the sum of the blue and the orange waves. Blue dots and orange stars still have their original meanings.
 
 \<p class="center"\>
-\<img src="sine1plus3\_2.png" width="100%"/\>
+\<img src="sine1plus3_2.png" width="100%"/\>
 \</p\>
 
 What is the general rule? If we have tones with frequencies {{ katex(body="f") }} and {{ katex(body="\frac{a}{b}f") }}, where {{ katex(body="\frac{a}{b}") }} is a fraction in simplified form, then the combined signal will have a fundamental frequency of {{ katex(body="\frac{f}{b}") }}.
@@ -251,7 +252,7 @@ From Principle 3, it is enough to select tones within the range of one octave—
 
 Having just two tones makes for a poor scale, so let's explore how to add more tones.
 
-## Approach 1: What if {{ katex(body="t\_2") }} is good enough?
+## Approach 1: What if {{ katex(body="\frac{3}{2}") }} is good enough?
 
 Let us assume that {{ katex(body="\frac{3}{2}") }} is such a good ratio that we only need to work with it. How can we extend our minimalistic 2-tone scale? We can multiply {{ katex(body="\frac{3}{2}") }} by {{ katex(body="\frac{3}{2}") }} again to get {{ katex(body="\frac{9}{4}") }}, which will be our next tone, {{ katex(body="t_2") }}.
 
@@ -320,7 +321,7 @@ We can visualize this as follows. Yellow arrows are multiplication by {{katex(bo
 <img src="pyth_moves.png" width="100%"/>
 </p>
 
-On the other hand, Scale 0 has some problematic properties. If we look at the ratios with respect to the initial tone {{katex(body="t\_0=1")}}:
+On the other hand, Scale 0 has some problematic properties. If we look at the ratios with respect to the initial tone {{katex(body="t_0=1")}}:
 
 {{katex(body="t_1 = \frac{3}{2}")}}, 
 {{katex(body="t_2 = \frac{9}{8}")}},
@@ -334,7 +335,7 @@ On the other hand, Scale 0 has some problematic properties. If we look at the ra
 {{katex(body="t_{10} = \frac{59049}{32768}")}},
 {{katex(body="t_{11} = \frac{177147}{131072}")}},
 
-The ratios between consecutive notes in the sorted scale are {{katex(body="\\frac{256}{243}")}} and {{katex(body="\\frac{2187}{2048}")}}. The former is the yellow arrow and the latter is the blue arrow in the following image:
+The ratios between consecutive notes in the sorted scale are {{katex(body="\frac{256}{243}")}} and {{katex(body="\frac{2187}{2048}")}}. The former is the yellow arrow and the latter is the blue arrow in the following image:
 
 
 <p class="center">
@@ -361,13 +362,13 @@ Among all solutions that hold the conditions above, we will pick the one that ha
 
 Before we continue, let us clarify the primary optimization criterion. For optimizing spread, we need to be able to measure distance. It would be a bad idea to compute the distance between two ratios a and b as {{ katex(body="a-b") }}. Since we are on a log scale, we use {{ katex(body="\log_2(a) - \log_2(b) = \log_2(\frac{a}{b})") }}.
 
-We define *evennness of a scale* as the square distance between consecutive points. For this computation, we also add {{ katex(body="\frac{2}{1}") }} into the set, so we are also measuring the distance between the highest ratio in the scale to the next octave.
+We define the *evenness of a scale* as the sum of squared distances between consecutive tones. For this computation, we also add {{ katex(body="\frac{2}{1}") }} into the set, so we are also measuring the distance from the highest tone in the scale to the next octave.
 
-Now if we create a simple program that runs through all combinations of fractions and find the optimal one, we get:
+Now, if we create a simple program that runs through all combinations of fractions and finds the optimal one, we get:
 
 {{ katex(body="1, \frac{9}{8},\frac{5}{4}, \frac{4}{3}, \frac{3}{2}, \frac{5}{3}, \frac{15}{8}")}}
 
-Let us call it **Scale1**. This scale is actually used commonly in western music. If we look at pairwise fractions, the worst denominator is 45, which is much better than 131072 that we have seen in the previous approach.
+Let's call it **Scale 1**. This scale is commonly used in Western music. If we look at pairwise fractions, the largest denominator is 45, which is much better than the 131,072 we saw in the previous approach.
 
 <table style="border-collapse: collapse; margin: 20px auto;">
  <thead>
@@ -475,9 +476,7 @@ Let us call it **Scale1**. This scale is actually used commonly in western music
  </tbody>
 </table>
 
-In construction of Scale 1, we have used we have utilized only the first triplet from Principle 5b (the third condition for our scale).
-What if we would allow also the second triplet? Then the result would be the same and 
-we also obtain Scale 1. What if we *only* the second triplet (10:12:15)? Then the situation becomes slightly more complex.
+In the construction of Scale 1, we only used the first triplet from Principle 5b (the third condition for our scale). What if we also allowed the second triplet (ratios 10:12:15)? The result would be the same: we would still obtain Scale 1. But what if we used *only* the second triplet? Then the situation becomes slightly more complex.
 
 We get two optimal results:
 
@@ -488,11 +487,11 @@ B) {{ katex(body="1, \frac{9}{8}, \frac{6}{5}, \frac{27}{20}, \frac{3}{2}, \frac
 Both of them also have 45 as the worst pairwise denominator.  The (A) is again a well recognized scale. 
 For (B), I was not able to find any information about practical usage. My guess is that {{ katex(body="\frac{27}{20}") }} and {{ katex(body="\frac{27}{16}") }} is not a good ratio for basic ratio in scale.
 
-But following a cultural tradition of the western music, we will use a crossover between (A) and (B).
+But following a cultural tradition of Western music, we will use a crossover between (A) and (B).
 
 {{ katex(body="1, \frac{9}{8}, \frac{6}{5}, \frac{4}{3}, \frac{3}{2}, \frac{8}{5}, \frac{9}{5}") }}
 
-Let us call it **Scale 2**. It is actually the second best solution for our optimization process right behind (A), and (B).  It has the same evenness as (A) and (B) but it has a slightly worse the worst pairwise denominator: 64.
+Let us call it **Scale 2**. It is actually the second-best solution from our optimization process, right behind (A) and (B). It has the same evenness as (A) and (B) but a slightly worse maximal pairwise denominator: 64.
 
 <table style="border-collapse: collapse; margin: 20px auto;">
  <thead>
@@ -600,9 +599,9 @@ Let us call it **Scale 2**. It is actually the second best solution for our opti
  </tbody>
 </table>
 
-As we have fixed our Scale 1 and Scale 2 and we can explore them more.
+Now that we have established Scale 1 and Scale 2, we can explore them more.
 
-If we look of consecutive ratios between consecutive tones, we will see that repeat three ratios:
+If we look at the ratios between consecutive tones, we will see three repeating step sizes:
 
 * {{ katex(body="\frac{16}{15}") }} (green)
 * {{ katex(body="\frac{10}{9}") }} (blue)
@@ -626,32 +625,26 @@ For completeness, let us also look at Scale (A):
 <img src="scale_a.png" width="100%"/>
 </p>
 
-We can see that it has the same pattern as Scale 2, but shifted. If we start from {{ katex(body="\frac{3}{2}") }} in Scale 2 and cyclically write down the pattern, we get (A). 
+We can see that it has the same pattern as Scale 2, but shifted. If we start from {{ katex(body="\frac{3}{2}") }} in Scale 2 and cyclically write down the pattern, we get the pattern for (A).
+
+Visually, you can observe that we have two kinds of steps: long ones ({{ katex(body="\frac{10}{9}") }} and {{ katex(body="\frac{9}{8}") }}) and a short one ({{ katex(body="\frac{16}{15}") }}), where the short one is about half the size of the long ones. We can also check this numerically in log2 distance: {{ katex(body="\log_2(\frac{9}{8}) \approx 0.170, \log_2(\frac{10}{9}) \approx 0.152, \log_2(\frac{16}{15}) \approx 0.093") }}.
+
+These different step sizes and shifts will be important in another part of this blog post series. For now, we will continue to generate one more scale.
 
 
-Visually, you can observe that we have two kind of steps: long ones ({{ katex(body="\frac{10}{9}") }} and {{ katex(body="\frac{9}{8}") }}) and short one ({{ katex(body="\frac{16}{15}") }})
-while the short one is about half in size of the long one. 
-We can also check it numerically in log2 distance: {{ katex(body="\log_2(\frac{9}{8}) \approx 1.170, \log_2(\frac{10}{9}) \approx 1.152, \log_2(\frac{16}{15}) \approx 0.093") }}.
+## Approach 3: Equal Steps
 
-These different steps and shifts will be important in another part of this blog post serie. In this text, we will continue to generate one more scale.
-
-
----
-
-### Approach 3: Equal Steps
-
-In the previous two approaches we have seen that size of steps between consecutive tones varies.
-Let's try to fix this. So our goal is to create a scale with n tones such that there is the equal distance between consecutive steps, i.e. when we want to get from {{ katex(body="s_i") }} to {{ katex(body="s_{i+1}") }} then we always multiply with the same constant c. Here is example with scale of 4 tones:
+In the previous two approaches, we have seen that the size of steps between consecutive tones varies. Let's try to fix this. Our goal is to create a scale with *n* tones such that there is an equal distance between consecutive steps; i.e., when we want to get from {{ katex(body="s_i") }} to {{ katex(body="s_{i+1}") }}, we always multiply by the same constant, *c*. Here is an example with a scale of 4 tones:
 
 <p class="center">
 <img src="scale_eq4.png" width="100%"/>
 </p>
 
-How do we compute the size of the step?  If we have 4 tones, we want to move 4 times to get 2 (= whole octave). This means that we are multiplying:
+How do we compute the size of the step? If we have 4 tones, we want to multiply by *c* four times to get to 2 (a whole octave). This means:
 
 {{ katex(body="1 * c * c * c * c = 2") }}
 
-that is
+that is:
 
 {{ katex(body="c^4 = 2") }}
 
@@ -659,17 +652,13 @@ so we get:
 
 {{ katex(body="c = \sqrt[4]{2}") }}
 
-if we abstract 4 to n tones we get:
+If we abstract from 4 to *n* tones, we get:
 
 {{ katex(body="c = \sqrt[n]{2}") }}
 
-This result brings us a problem: for all n > 1: {{katex(body="\sqrt[n]{2}") }} is is not a rational number; i.e. the number cannot be expressed as a fraction {{ katex(body="\frac{a}{b}") }}. Therefore also all tones {{ katex(body="s_i, i >= 1") }} in such a generated scale will not be rational numbers.
-Here saves us Principle 6. We do not need exact ratios, we just need to get close enough.
+This result brings us a problem: for all n \> 1, {{katex(body="\sqrt[n]{2}")}} is an irrational number; i.e., it cannot be expressed as a fraction {{ katex(body="\frac{a}{b}") }}. Therefore, all tones {{ katex(body="s_i, i \ge 1") }} in such a generated scale will also be irrational. Here, Principle 6 saves us. We do not need exact ratios; we just need to get close enough.
 
-The question is now what n we should choose. 
-For the beginning, let us say that we want to express {{ katex(body="\frac{3}{2}") }} very closely.
-We can look on all scales where n ranges from [2..30] and look how close is the closest tone to {{ katex(body="\frac{3}{2}") }}.
-(the range up to 30 is arbitrary, but having scale with more than 30 tones is probably impractical).
+The question now is what *n* we should choose. For starters, let's say that we want to approximate {{ katex(body="\frac{3}{2}") }} very closely. We can look at all scales where *n* ranges from 2 to 30 and see how close the nearest tone is to {{ katex(body="\frac{3}{2}") }}. (The range up to 30 is arbitrary, but a scale with more than 30 tones is probably impractical).
 
 Let us plot the result:
 
@@ -677,26 +666,23 @@ Let us plot the result:
 <img src="n_to_3_2.png" width="80%"/>
 </p>
 
-X-axis is the number of tones; Y-axis is squared log distance.
-Note that Y-axis shown in log scale, so we are "zooming" on a smaller numbers. 
+The X-axis is the number of tones; the Y-axis is the squared log distance. Note that the Y-axis is shown on a log scale, so we are "zooming in" on the smaller numbers.
 
-From the figure, we see that good candidates for "n" are: 12, 24, 29 tones. 
-But we want to optimize not only for {{ katex(body="\frac{3}{2}") }} but also for other "good ratios". As good ratios, we take the union of ratios in Scale 1 and Scale 2. If we take mean squared distances to all of these ratios we get the the following figure:
+From the figure, we see that good candidates for "n" are 12, 24, and 29. But we want to optimize not only for {{ katex(body="\frac{3}{2}") }} but also for other "good ratios". As our set of good ratios, we take the union of ratios in Scale 1 and Scale 2. If we take the mean squared log distance to all of these ratios, we get the following figure:
 
 <p class="center">
 <img src="n_to_ratios.png" width="80%"/>
 </p>
 
-We can see that good candidates for "n” seems to be 12, 19, 22, 24, 27 and 29.
+We can see that good candidates for "n” appear to be 12, 19, 22, 24, 27, and 29.
 
-We choose n = 12 for compatability with Western music (it is aligned with Principle 5c).
-Notes on other “n” values: People in history experiments 19 and 22 tones music scales. 24 tones is used in Middle East music. 27 and 29 seem to be consudered obscure and not praticaly used.
+We choose n = 12 for compatibility with Western music (this aligns with Principle 5c). Notes on other “n” values: historically, people have experimented with 19- and 22-tone music scales. A 24-tone scale is used in Middle Eastern music. Scales with 27 and 29 tones seem to be obscure and are not practically used.
 
-So our Scale 3 is defined as follows:
+So our **Scale 3** is defined as follows:
 
-{{ katex(body="s_i = (\sqrt[12]{2})^i") }} for {{ katex(body="i \in {0, 1, \dots, 11}") }}
+{{ katex(body="s_i = (\sqrt[12]{2})^i") }} for {{ katex(body="i \in \{0, 1, \dots, 11\}") }}
 
-For comparison we plot all scales together: Scale 3 = orange circles, Scale 1 = blue triangles, Scale 2 = red crosses, and Scale 0 = green boxes.
+For comparison, we plot all scales together: Scale 3 = orange circles, Scale 1 = blue triangles, Scale 2 = red crosses, and Scale 0 = green boxes.
 
 <p class="center">
 <img src="four_scales.png" width="100%"/>
@@ -704,4 +690,4 @@ For comparison we plot all scales together: Scale 3 = orange circles, Scale 1 = 
 
 ## Conclusion
 
-We have derived four scales with different approaches and different properties. In the next part we explore the properties of large and small steps that occur in Scale 1 and 2.
+We have derived four different types of scales using different approaches, resulting in different properties. In the next part, we will explore the properties of the large and small steps that occur in Scale 1 and Scale 2.
