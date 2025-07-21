@@ -14,7 +14,7 @@ I do this to improve my communication with the people educated in music who are 
 
 As a child, I played guitar for a few years. I was also supposed to visit music theory. But the theory teacher was unable to explain why I needed it. So I skipped the theory classes completely. Last year I started to play cello and thought it may be a good idea to give music theory a second chance. Moreover, compared to my childhood, I now have a PhD in computer science, so hopefully I am more ready for understanding theories.
 
-I tried to read some books, papers, and watch videos, but it was quite hard for me. They are usually avoid formal definitions or they use the same term in different contexts without proper explanation. My favorite is the argument by piano, "some property holds because on piano …," like a piano were a universal principle in the universe. I always imagine the LHC producing pianos among other elementary particles.
+I tried to read some books, papers, and watch videos, but it was quite hard for me. They usually avoid formal definitions or they use the same term in different contexts without proper explanation. My favorite is the argument by piano, "some property holds because on piano …" like a piano were a universal principle in the universe. I always imagine the LHC producing pianos among other elementary particles.
 
 
 <p class="center">
