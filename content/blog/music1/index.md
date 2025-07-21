@@ -144,9 +144,9 @@ If we overlay the two images, we get:
 
 Here we can see that the blue dots and stars overlap at points 2, 4, 6, etc. (assuming the first point is at time 0), so both sine waves start a new period simultaneously at these points. It should not be surprising that if we add these two waves together, we get something that repeats from these points. The green line is the sum of the blue and the orange waves. Blue dots and orange stars still have their original meanings.
 
-\<p class="center"\>
-\<img src="sine1plus3_2.png" width="100%"/\>
-\</p\>
+<p class="center">
+<img src="sine1plus3_2.png" width="100%"/>
+</p>
 
 What is the general rule? If we have tones with frequencies {{ katex(body="f") }} and {{ katex(body="\frac{a}{b}f") }}, where {{ katex(body="\frac{a}{b}") }} is a fraction in simplified form, then the combined signal will have a fundamental frequency of {{ katex(body="\frac{f}{b}") }}.
 
