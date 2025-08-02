@@ -3,7 +3,7 @@ title = "Music Theory from Basic Principles (Part 1)"
 date = 2025-07-20
 [extra]
   katex = true
-  my_draft = true
+  my_draft = false
 +++
 
 *Disclaimer: I am not a music theory expert. This text summarizes my understanding, and is probably full of mistakes. Think of it as an exploration.*
