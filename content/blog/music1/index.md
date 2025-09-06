@@ -1,10 +1,12 @@
 +++
-title = "Music Theory from Basic Principles (Part 1)"
+title = "Music Theory from Basic Principles (Part&nbsp;1)"
 date = 2025-07-20
 [extra]
   katex = true
   my_draft = false
 +++
+
+*Update: 2025-09-xx: Audio widgets added + some minor updates*
 
 *Disclaimer: I am not a music theory expert. This text summarizes my understanding, and is probably full of mistakes. Think of it as an exploration.*
 
@@ -302,11 +304,11 @@ Because of this, generating new tones this way would basically be starting over 
 <img src="pythshift.png" width="100%"/>
 </p>
 
-So this is it. We have created our first non-trivial scale: {{katex(body="t_{0}, \dots, t_{11}")}}. We will name it **Scale 0**. Let's summarize its properties:
+So this is it. We have created our first non-trivial scale: {{katex(body="t_{0}, \dots, t_{11}")}}. We will name it **Scale 1**. Let's summarize its properties:
 
 * It is quite evenly distributed across the interval [1, 2).
-* Tones {{katex(body="t_{i}")}} and {{katex(body="t_{i+1}")}} (in order of generation) always have a ratio of {{katex(body="\frac{3}{2}")}} or {{katex(body="\frac{3}{4}")}} (i.e., {{ katex(body="\frac{3}{2}") }} moved by an octave). 
-  
+* Tones {{katex(body="t_{i}")}} and {{katex(body="t_{i+1}")}} (in order of generation) always have a ratio of {{katex(body="\frac{3}{2}")}} or {{katex(body="\frac{3}{4}")}} (i.e., {{ katex(body="\frac{3}{2}") }} moved by an octave).
+
 Specifically:
 {{katex(body="\frac{t_1}{t_0} = \frac{3}{2}")}},
 {{katex(body="\frac{t_2}{t_1} = \frac{3}{4}")}},
@@ -325,9 +327,9 @@ We can visualize this as follows. Yellow arrows are multiplication by {{katex(bo
 <img src="pyth_moves.png" width="100%"/>
 </p>
 
-On the other hand, Scale 0 has some problematic properties. If we look at the ratios with respect to the initial tone {{katex(body="t_0=1")}}:
+On the other hand, Scale 1 has some problematic properties. If we look at the ratios with respect to the initial tone {{katex(body="t_0=1")}}:
 
-{{katex(body="t_1 = \frac{3}{2}")}}, 
+{{katex(body="t_1 = \frac{3}{2}")}},
 {{katex(body="t_2 = \frac{9}{8}")}},
 {{katex(body="t_3 = \frac{27}{16}")}},
 {{katex(body="t_4 = \frac{81}{64}")}},
@@ -372,7 +374,7 @@ Now, if we create a simple program that runs through all combinations of fractio
 
 {{ katex(body="1, \frac{9}{8},\frac{5}{4}, \frac{4}{3}, \frac{3}{2}, \frac{5}{3}, \frac{15}{8}")}}
 
-Let's call it **Scale 1**. This scale is commonly used in Western music. If we look at pairwise fractions, the largest denominator is 45, which is much better than the 131,072 we saw in the previous approach.
+Let's call it **Scale 2a**. This scale is commonly used in Western music. If we look at pairwise fractions, the largest denominator is 45, which is much better than the 131,072 we saw in the previous approach.
 
 <table style="border-collapse: collapse; margin: 20px auto;">
  <thead>
@@ -480,7 +482,7 @@ Let's call it **Scale 1**. This scale is commonly used in Western music. If we l
  </tbody>
 </table>
 
-In the construction of Scale 1, we only used the first triplet from Principle 5b (the third condition for our scale). What if we also allowed the second triplet (ratios 10:12:15)? The result would be the same: we would still obtain Scale 1. But what if we used *only* the second triplet? Then the situation becomes slightly more complex.
+In the construction of Scale 2a, we only used the first triplet from Principle 5b (the third condition for our scale). What if we also allowed the second triplet (ratios 10:12:15)? The result would be the same: we would still obtain Scale 2a. But what if we used *only* the second triplet? Then the situation becomes slightly more complex.
 
 We get two optimal results:
 
@@ -488,14 +490,14 @@ A) {{ katex(body="1, \frac{16}{15}, \frac{6}{5}, \frac{4}{3}, \frac{3}{2}, \frac
 
 B) {{ katex(body="1, \frac{9}{8}, \frac{6}{5}, \frac{27}{20}, \frac{3}{2}, \frac{27}{16}, \frac{9}{5}") }}
 
-Both of them also have 45 as the worst pairwise denominator.  The (A) is again a well recognized scale. 
+Both of them also have 45 as the worst pairwise denominator.  The (A) is again a well recognized scale.
 For (B), I was not able to find any information about practical usage. My guess is that {{ katex(body="\frac{27}{20}") }} and {{ katex(body="\frac{27}{16}") }} is not a good ratio for basic ratio in scale.
 
 But following a cultural tradition of Western music, we will use a crossover between (A) and (B).
 
 {{ katex(body="1, \frac{9}{8}, \frac{6}{5}, \frac{4}{3}, \frac{3}{2}, \frac{8}{5}, \frac{9}{5}") }}
 
-Let us call it **Scale 2**. It is actually the second-best solution from our optimization process, right behind (A) and (B). It has the same evenness as (A) and (B) but a slightly worse maximal pairwise denominator: 64.
+Let us call it **Scale 2b**. It is actually the second-best solution from our optimization process, right behind (A) and (B). It has the same evenness as (A) and (B) but a slightly worse maximal pairwise denominator: 64.
 
 <table style="border-collapse: collapse; margin: 20px auto;">
  <thead>
@@ -603,7 +605,7 @@ Let us call it **Scale 2**. It is actually the second-best solution from our opt
  </tbody>
 </table>
 
-Now that we have established Scale 1 and Scale 2, we can explore them more.
+Now that we have established Scale 2a and Scale 2b, we can explore them more.
 
 If we look at the ratios between consecutive tones, we will see three repeating step sizes:
 
@@ -611,13 +613,13 @@ If we look at the ratios between consecutive tones, we will see three repeating 
 * {{ katex(body="\frac{10}{9}") }} (blue)
 * {{ katex(body="\frac{9}{8}") }} (orange)
 
-Scale 1:
+Scale 2a:
 
 <p class="center">
 <img src="scale1.png" width="100%"/>
 </p>
 
-Scale 2:
+Scale 2b:
 
 <p class="center">
 <img src="scale2.png" width="100%"/>
@@ -629,7 +631,7 @@ For completeness, let us also look at Scale (A):
 <img src="scale_a.png" width="100%"/>
 </p>
 
-We can see that it has the same pattern as Scale 2, but shifted. If we start from {{ katex(body="\frac{3}{2}") }} in Scale 2 and cyclically write down the pattern, we get the pattern for (A).
+We can see that it has the same pattern as Scale 2b, but shifted. If we start from {{ katex(body="\frac{3}{2}") }} in Scale 2b and cyclically write down the pattern, we get the pattern for (A).
 
 Visually, you can observe that we have two kinds of steps: long ones ({{ katex(body="\frac{10}{9}") }} and {{ katex(body="\frac{9}{8}") }}) and a short one ({{ katex(body="\frac{16}{15}") }}), where the short one is about half the size of the long ones. We can also check this numerically in log2 distance: {{ katex(body="\log_2(\frac{9}{8}) \approx 0.170, \log_2(\frac{10}{9}) \approx 0.152, \log_2(\frac{16}{15}) \approx 0.093") }}.
 
@@ -672,7 +674,7 @@ Let us plot the result:
 
 The X-axis is the number of tones; the Y-axis is the squared log distance. Note that the Y-axis is shown on a log scale, so we are "zooming in" on the smaller numbers.
 
-From the figure, we see that good candidates for "n" are 12, 24, and 29. But we want to optimize not only for {{ katex(body="\frac{3}{2}") }} but also for other "good ratios". As our set of good ratios, we take the union of ratios in Scale 1 and Scale 2. If we take the mean squared log distance to all of these ratios, we get the following figure:
+From the figure, we see that good candidates for "n" are 12, 24, and 29. But we want to optimize not only for {{ katex(body="\frac{3}{2}") }} but also for other "good ratios". As our set of good ratios, we take the union of ratios in Scale 2a and Scale 2b. If we take the mean squared log distance to all of these ratios, we get the following figure:
 
 <p class="center">
 <img src="n_to_ratios.png" width="80%"/>
@@ -686,7 +688,7 @@ So our **Scale 3** is defined as follows:
 
 {{ katex(body="s_i = (\sqrt[12]{2})^i") }} for {{ katex(body="i \in \{0, 1, \dots, 11\}") }}
 
-For comparison, we plot all scales together: Scale 3 = orange circles, Scale 1 = blue triangles, Scale 2 = red crosses, and Scale 0 = green boxes.
+For comparison, we plot all scales together: Scale 3 = orange circles, Scale 2a = blue triangles, Scale 2b = red crosses, and Scale 1 = green boxes.
 
 <p class="center">
 <img src="four_scales.png" width="100%"/>
@@ -694,4 +696,4 @@ For comparison, we plot all scales together: Scale 3 = orange circles, Scale 1 =
 
 ## Conclusion
 
-We have derived four different types of scales using different approaches, resulting in different properties. In the next part, we will explore the properties of the large and small steps that occur in Scale 1 and Scale 2.
+We have derived four different types of scales using different approaches, resulting in different properties. In the next part, we will explore the properties of the large and small steps that occur in Scale 2a and Scale 2b.
