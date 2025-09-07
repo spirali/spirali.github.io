@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background: white;
+    padding: 0 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+}
+
+nav .nav-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    max-width: 880px;
+}
+
+
+nav .logo {
+    height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 25px;
+}
+
+nav .blog-title {
+    font-size: 36px;
+    color: #333;
+    margin: 0;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.content {
+    max-width: 880px;
+    width: 100%;
+    background: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.post {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.post h2 {
+    margin-top: 0;
+}
+
+.post p {
+    text-align: justify;
+}

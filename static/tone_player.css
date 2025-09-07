@@ -1,0 +1,85 @@
+:root {
+    --widget-bg: #f0f0f0;
+    --border-color: #ccc;
+    --text-color: #333;
+    --highlight-bg: #007bff;
+    --highlight-text: #ffffff;
+    --button-bg: #28a745;
+    --button-all-bg: #28a7a7;
+    --button-stop-bg: #dc3545;
+    --tone-item-hover-bg: #e0e0e0; /* Added hover state */
+    --tone-item-active-bg: #d0d0d0; /* Added active state */
+}
+
+.tone-sequencer {
+    font-family: sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--widget-bg);
+    flex-wrap: wrap; /* Allows tones to wrap on small screens */
+}
+
+.tone-sequencer button {
+    border: none;
+    border-radius: 5px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: background-color 0.2s;
+    flex-shrink: 0; /* Prevents button from shrinking */
+}
+.tone-sequencer button.play-btn { background-color: var(--button-bg); }
+.tone-sequencer button.play-all-btn { background-color: var(--button-all-bg); }
+.tone-sequencer button.stop-btn { background-color: var(--button-stop-bg); }
+.tone-sequencer button svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+.tone-item {
+    padding: 8px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: #fff;
+    text-align: center;
+    min-width: 60px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer; /* Indicate clickable */
+}
+.tone-item:hover { /* Hover effect for individual tones */
+    background-color: var(--tone-item-hover-bg);
+    border-color: #a0a0a0;
+}
+.tone-item:active { /* Active effect for individual tones */
+    background-color: var(--tone-item-active-bg);
+    transform: scale(0.98);
+}
+.tone-item .tone-label {
+    font-size: 0.65em;
+    font-weight: bold;
+    color: #555;
+    display: block;
+}
+.tone-item .tone-freq {
+    font-size: 0.65em;
+    color: var(--text-color);
+}
+.tone-item.playing {
+    background-color: var(--highlight-bg);
+    color: var(--highlight-text);
+    border-color: var(--highlight-bg);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--highlight-bg);
+}
+.tone-item.playing .tone-label,
+.tone-item.playing .tone-freq {
+    color: var(--highlight-text);
+}

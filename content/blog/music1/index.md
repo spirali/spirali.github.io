@@ -3,16 +3,13 @@ title = "Music Theory from Basic Principles (Part&nbsp;1)"
 date = 2025-07-20
 [extra]
   katex = true
+  tone_player = true
   my_draft = false
 +++
 
-*Update: 2025-09-xx: Audio widgets added + some minor updates*
+*Update: 2025-09-14: Audio widgets added + some minor updates*.
 
 *Disclaimer: I am not a music theory expert. This text summarizes my understanding, and is probably full of mistakes. Think of it as an exploration.*
-
-*Note: I intentionally avoid standard music theory terminology.
-I do this to improve my communication with the people educated in music who are not trained in math. In my experience, when you use a standard term (e.g. "Pythagorean tuning"), people automatically bring hidden assumptions into the debate without realizing it. When we are building anonymous "Scale 0", we are forced to just use only the properties in the text without using external knowledge.*
-
 
 As a child, I played guitar for a few years. I was also supposed to visit music theory. But the theory teacher was unable to explain why I needed it. So I skipped the theory classes completely. Last year I started to play cello and thought it may be a good idea to give music theory a second chance. Moreover, compared to my childhood, I now have a PhD in computer science, so hopefully I am more ready for understanding theories.
 
@@ -29,6 +26,9 @@ Another confusion for me was how things that are culturally dependent, biologica
 I am aware that music is about emotions and cannot be fully captured formally. I actually want music to remain mostly an emotional experience for me. But this does not discourage me from trying to explain music theory in a slightly unusual way: build it from basic principles.
 
 In other words, I aim to give a few elementary principles, explain where they come from, and then derive music theory from these principles without introducing new, unexplained things along the way.
+
+*Note: I intentionally avoid standard music theory terminology.
+I do this to improve my communication with the people educated in music who are not trained in math. In my experience, when you use a standard term (e.g. "Pythagorean tuning"), people automatically bring hidden assumptions into the debate without realizing it. When we are building anonymous "Scale X", we are forced to just use only the properties in the text without using external knowledge.*
 
 ---
 
@@ -94,6 +94,54 @@ When we move by the same distance on a log scale, we have to multiply by the sam
 
 We will work almost exclusively on a log scale from now on. Thus, our "basic" operation for moving between pitches will be **multiplication**, not addition.
 
+#### Audio example
+
+In the post, there are a few audio examples.
+Take them just as a bonus.
+The quality of the output heavily depends on your browser and your audio equipment. Normal laptop
+speakers are far from enough to hear something interesting. It is always better to take a musical instrument and a tuner:).
+
+If you click on a green button, it will play a sequence of tones of the given frequency.
+If you click on button the right side of the sequence, it will play all tones at once.
+You may also click on an idividual frequency to play that frequency.
+
+
+
+First let us have two base frequences with consecutive tones obtained by a multiplication by the same constant.
+You should percive the same distance between the base a tone and its following tone.
+
+<table style="width: 100%">
+<tr>
+<td>
+{{ tone_player(cfg="{
+    frequencies: [300, 450],
+    labels: ['Base', 'Base x 1.5']
+}") }}
+<td>
+{{ tone_player(cfg="{
+    frequencies: [800, 1200],
+    labels: ['Base', 'Base x 1.5']
+}") }}
+</table>
+
+Now we will have the same two base frequencies with consicutives tones obtained by adding the same constant;
+the distances should be percieved as different.
+
+<table style="width: 100%">
+<tr>
+<td>
+{{ tone_player(cfg="{
+    frequencies: [300, 450],
+    labels: ['Base', 'Base + 150']
+}") }}
+<td>
+{{ tone_player(cfg="{
+    frequencies: [800, 950],
+    labels: ['Base', 'Base + 150']
+}") }}
+</table>
+
+
 ### Principle 3: Octave Circularity
 
 Two tones are an octave apart if their frequencies have a ratio of {{ katex(body="2:1") }}. We perceive these tones as being, in some sense, the "same" note, just higher or lower.
@@ -118,6 +166,25 @@ Out of curiosity, let us look one last time at the linear scale and see the same
 Octave circularity seems to be something that [we share with some animals](http://www.neuroscience-of-music.se/eng7.htm).
 
 Mathematically speaking, this principle establishes a *cyclic multiplicative group*. "Cyclic" means that it behaves like a wall clock: when the hand reaches 12, it starts over. In our case, our range is not 0-12 but 1-2. "Multiplicative" in the name just means that we are moving by multiplication rather than addition (as in the case of the clock).
+
+
+#### Audio example
+
+A sequence of four tones with where each tone has octave distance from the previous one.
+
+{{ tone_player(cfg="{
+    frequencies: [200, 400, 800, 1600],
+    labels: ['Base', 'Base x 2', 'Base x 4', 'Base x 8']
+}") }}
+
+
+A sequence of four tones with where each tone is 1.6x the previous one.
+
+{{ tone_player(cfg="{
+    frequencies: [200, 320, 512, 1310],
+    labels: ['Base', 'Base x 1.6', 'Base x 1.6^2', 'Base x 1.6^3']
+}") }}
+
 
 ### Principle 4: "Small ratios" sound good together
 
@@ -163,6 +230,41 @@ For example, let us take {{ katex(body="\frac{2}{1}f") }}. The combined signal l
 <p class="center">
 <img src="sine1plus2.png" width="100%"/>
 </p>
+
+
+#### Audio example
+
+Example of tones moved by {{ katex(body="\frac{3}{2}") }}:
+
+<table style="width: 100%">
+<tr>
+<td>
+{{ tone_player(cfg="{
+    frequencies: [300, 450],
+    labels: ['Base', 'Base x 3/2'],
+}") }}
+<td>
+{{ tone_player(cfg="{
+    frequencies: [600, 900],
+    labels: ['Base', 'Base x 3/2'],
+}") }}
+</table>
+
+Example of tones moved by {{ katex(body="\frac{15}{8}") }}:
+
+<table style="width: 100%">
+<tr>
+<td>
+{{ tone_player(cfg="{
+    frequencies: [300, 562.5],
+    labels: ['Base', 'Base x 15/8'],
+}") }}
+<td>
+{{ tone_player(cfg="{
+    frequencies: [600, 1125],
+    labels: ['Base', 'Base x 15/8'],
+}") }}
+</table>
 
 
 ### Principle 5: Western music adds cultural constraints
@@ -229,6 +331,42 @@ The second triplet also has a unique property. If we want a sequence of ratios 1
  <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">{{ katex(body="1") }}</td>
  </tr>
  </tbody>
+</table>
+
+
+#### Audio example
+
+The first triplet examples from 300Hz and 500Hz:
+
+<table>
+<tr>
+<td>
+{{ tone_player(cfg="{
+    frequencies: [300, 375, 450],
+    labels: ['Base', 'Base x 5/4', 'Base x 3/2'],
+}") }}
+<td>
+{{ tone_player(cfg="{
+    frequencies: [500, 625, 750],
+    labels: ['Base', 'Base x 5/4', 'Base x 3/2'],
+}") }}
+</tr>
+</table>
+
+The second triplet examples from 300Hz and 500Hz:
+<table>
+<tr>
+<td>
+{{ tone_player(cfg="{
+    frequencies: [300, 360, 450],
+    labels: ['Base', 'Base x 6/5', 'Base x 3/2'],
+}") }}
+<td>
+{{ tone_player(cfg="{
+    frequencies: [500, 600, 750],
+    labels: ['Base', 'Base x 5/4', 'Base x 3/2'],
+}") }}
+</tr>
 </table>
 
 #### c) Western music favors 7- and 12-tone scales.
@@ -349,6 +487,7 @@ The ratios between consecutive notes in the sorted scale are {{katex(body="\frac
 </p>
 
 The large numbers in these ratios are a problem according to Principle 4. In the next section, we can try to fix this.
+
 
 ## Approach 2: Define goals, then search
 
