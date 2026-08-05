@@ -6,7 +6,8 @@
     --border: #e6ded5;
     --accent: #c1613f;
     --accent-dark: #9c4c30;
-    --accent-deep: #6b2c1a;
+    --accent-bright: #e67e22;
+    --accent-deep: #d35400;
     --accent-soft: #f3e1d6;
 }
 
@@ -32,8 +33,9 @@ body {
 }
 
 header {
-    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    background: linear-gradient(135deg, var(--accent-bright), var(--accent-deep));
     padding: 10px 20px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 
 nav {
@@ -45,10 +47,16 @@ nav {
 
 nav .nav-content {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     max-width: 760px;
+}
+
+nav .brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
 }
 
 nav .logo {
@@ -61,6 +69,28 @@ nav .blog-title {
     font-size: 26px;
     color: white;
     margin: 0;
+}
+
+nav .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav .nav-links a {
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+nav .nav-links a:hover {
+    opacity: 0.75;
+    text-decoration: underline;
 }
 
 main {
@@ -183,12 +213,22 @@ a:hover {
         flex-direction: column;
     }
 
+    nav .brand {
+        flex-direction: column;
+    }
+
     nav .logo {
         margin: 10px 0;
     }
 
     nav .blog-title {
         font-size: 22px;
+    }
+
+    nav .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 12px;
     }
 
     .content {
@@ -206,35 +246,4 @@ pre {
     padding: 0.5em 0.75em;
     border-radius: 8px;
     font-size: 16px;
-}
-
-footer {
-    flex-shrink: 0;
-    background: var(--bg);
-    color: var(--text-muted);
-    text-align: center;
-    padding: 16px;
-    border-top: 1px solid var(--border);
-}
-
-footer a {
-    color: var(--text-muted);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    transition: color 0.3s ease;
-    font-weight: bold;
-}
-
-footer a:hover {
-    color: var(--accent);
-    text-decoration: none;
-}
-
-footer .github-icon {
-    margin-right: 8px;
-}
-
-footer img {
-    padding-right: 0.5em;
 }
