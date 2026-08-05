@@ -1,0 +1,12 @@
+{% macro post_list(pages) %}
+<ul class="post-list">
+    {% for page in pages %}
+    {% if not page.extra.my_draft %}
+    <li class="post-list__item">
+        <a href="{{ page.permalink | safe }}">{{ page.title | safe }}</a>
+        {% if page.date %}<span class="post-list__date">{{ page.date | date(format="%B %-d, %Y") }}</span>{% endif %}
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endmacro post_list %}
