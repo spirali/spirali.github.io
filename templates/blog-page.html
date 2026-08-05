@@ -3,12 +3,12 @@
 {% block content %}
 <div class="post">
     {%- if page.extra.my_draft -%}
-    <p style="font-size: 32px; color: orange;">⚠ This text is <strong>draft</strong>.</p>
+    <p class="draft-notice">⚠ This text is <strong>draft</strong>.</p>
     {%- endif -%}
     <h1 class="title">
         {{ page.title | safe }}
     </h1>
-    <p class="subtitle"><strong>{{ page.date }}</strong></p>
+    <p class="subtitle">{{ page.date | date(format="%B %-d, %Y") }}</p>
     {{ page.content | safe }}
 </div>
 {% endblock content %}

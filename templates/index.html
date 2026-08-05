@@ -1,14 +1,8 @@
 {% extends "base.html" %}
-
+{% import "macros.html" as macros %}
 
 {% block content %}
-<h1>List of blog posts</h1>
-<ul>
-    {% set blog_section = get_section(path="blog/_index.md") %}
-    {% for page in blog_section.pages %}
-    {% if not page.extra.my_draft %}
-    <li><a href="{{ page.permalink | safe }}">{{ page.title | safe }}</a></li>
-    {% endif %}
-    {% endfor %}
-</ul>
+<h1 class="title">List of blog posts</h1>
+{% set blog_section = get_section(path="blog/_index.md") %}
+{{ macros::post_list(pages=blog_section.pages) }}
 {% endblock content %}
