@@ -7,7 +7,8 @@ template = "index.html"
 * I am interested in tool building and distributed computing.
 * I have PhD in Computer Science.
 * I work mostly in Rust and Python; sometimes in TypeScript. In past C, C++, Haskell.
-* I love digital painting and playing the cello.
+* I love playing the cello, digital paiting, and sewing dresses.
+
 
 ## Selected projects where I am main author/co-author
 

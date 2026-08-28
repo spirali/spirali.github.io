@@ -40,6 +40,38 @@
             {% block content %} {% endblock %}
         </div>
     </main>
+
+    <div class="img-zoom-overlay" id="img-zoom-overlay">
+        <img id="img-zoom-img" src="" alt="">
+    </div>
+    <script>
+        (function () {
+            var overlay = document.getElementById('img-zoom-overlay');
+            var overlayImg = document.getElementById('img-zoom-img');
+
+            function open(src, alt) {
+                overlayImg.src = src;
+                overlayImg.alt = alt || '';
+                overlay.classList.add('is-open');
+            }
+
+            function close() {
+                overlay.classList.remove('is-open');
+                overlayImg.src = '';
+            }
+
+            document.querySelectorAll('.post img').forEach(function (img) {
+                img.addEventListener('click', function () {
+                    open(img.currentSrc || img.src, img.alt);
+                });
+            });
+
+            overlay.addEventListener('click', close);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') close();
+            });
+        })();
+    </script>
 </body>
 
 </html>
