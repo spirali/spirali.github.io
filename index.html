@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ada's Blog</title>
+    <link rel="stylesheet" href="https://spirali.github.io/style.css">    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous"></head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-content">
+                <a href="/" class="brand">
+                    <img src="https://spirali.github.io/logo.jpg" alt="Logo" class="logo">
+                    <h1 class="blog-title">Ada's Blog</h1>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="/">About</a></li>
+                    <li><a href="/blog/">Posts</a></li>
+                    <li><a href="https://github.com/spirali">Github</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content">
+            
+<div class="post">
+    <h1 class="title">About</h1>
+    <ul>
+<li>I am a developer and research engineer at <a rel="external" href="https://www.it4i.cz/en">IT4Innovations</a>.</li>
+<li>I am interested in tool building and distributed computing.</li>
+<li>I have PhD in Computer Science.</li>
+<li>I work mostly in Rust and Python; sometimes in TypeScript. In past C, C++, Haskell.</li>
+<li>I love playing the cello, digital paiting, and sewing dresses.</li>
+</ul>
+<h2 id="selected-projects-where-i-am-main-author-co-author">Selected projects where I am main author/co-author</h2>
+<ul>
+<li><a rel="external" href="https://github.com/it4innovations/hyperqueue">HyperQueue</a> - user-friendly and scalable job scheduler for supercomputers</li>
+<li><a rel="external" href="https://github.com/spirali/fairyflow">Fairyflow</a> - slide making software</li>
+<li><a rel="external" href="https://github.com/spirali/nelsie">Nelsie</a> - slide making software</li>
+<li><a rel="external" href="https://github.com/substantic/rain">Rain</a> - framework for large distributed pipelines</li>
+<li><a rel="external" href="https://github.com/spirali/twinsong">TwinSong</a> - Jupyter from scratch in Rust</li>
+<li><a rel="external" href="https://github.com/linebender/kompari">Kompari</a> - Tool for image snaphost testing</li>
+<li><a rel="external" href="https://github.com/acsresearch/interlab">Interlab</a> - toolkit for multi-agent interactions</li>
+<li><a rel="external" href="https://github.com/spirali/nicetrace">Nicetrace</a> - Python tracer focused on structured visulization</li>
+<li><a rel="external" href="https://github.com/it4innovations/rsds">RSDS</a> - <a rel="external" href="https://github.com/dask/distributed/">Dask</a> server reimplemented in Rust</li>
+<li><a rel="external" href="https://github.com/spirali/nedoc">Nedoc</a> - non-evaluating documentation generator for Python</li>
+<li><a rel="external" href="https://github.com/spirali/haydi">Haydi</a> - Python framework for generating discrete structures</li>
+<li><a rel="external" href="https://github.com/spirali/aislinn">Aislinn</a> - dynamic verifier for MPI programs</li>
+<li><a rel="external" href="https://github.com/it4innovations/estee">Estee</a> - simulator for task-based workflow schedulers</li>
+<li><a rel="external" href="https://github.com/spirali/orco">ORCO</a> - Python package for defining, executing, and persisting computations</li>
+</ul>
+
+</div>
+
+        </div>
+    </main>
+
+    <div class="img-zoom-overlay" id="img-zoom-overlay">
+        <img id="img-zoom-img" src="" alt="">
+    </div>
+    <script>
+        (function () {
+            var overlay = document.getElementById('img-zoom-overlay');
+            var overlayImg = document.getElementById('img-zoom-img');
+
+            function open(src, alt) {
+                overlayImg.src = src;
+                overlayImg.alt = alt || '';
+                overlay.classList.add('is-open');
+            }
+
+            function close() {
+                overlay.classList.remove('is-open');
+                overlayImg.src = '';
+            }
+
+            document.querySelectorAll('.post img').forEach(function (img) {
+                img.addEventListener('click', function () {
+                    open(img.currentSrc || img.src, img.alt);
+                });
+            });
+
+            overlay.addEventListener('click', close);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') close();
+            });
+        })();
+    </script>
+</body>
+
+</html>

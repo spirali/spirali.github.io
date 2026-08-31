@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ada's Blog</title>
+    <link rel="stylesheet" href="https://spirali.github.io/style.css">    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous"></head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-content">
+                <a href="/" class="brand">
+                    <img src="https://spirali.github.io/logo.jpg" alt="Logo" class="logo">
+                    <h1 class="blog-title">Ada's Blog</h1>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="/">About</a></li>
+                    <li><a href="/blog/">Posts</a></li>
+                    <li><a href="https://github.com/spirali">Github</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content">
+            
+<h1 class="title">
+    List of blog posts
+</h1>
+<!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
+
+<ul class="post-list">
+    
+    
+    <li class="post-list__item">
+        <a href="https://spirali.github.io/blog/cargo-scheduler/">Could Cargo's scheduler be better?</a>
+        <span class="post-list__date">August 31, 2026</span>
+    </li>
+    
+    
+    
+    <li class="post-list__item">
+        <a href="https://spirali.github.io/blog/twinsong/">Twinsong: Breaking the Constraints of Linear Notebook Environments</a>
+        <span class="post-list__date">April 13, 2025</span>
+    </li>
+    
+    
+    
+    <li class="post-list__item">
+        <a href="https://spirali.github.io/blog/nelsie/">Nelsie: About Focus in Slides</a>
+        <span class="post-list__date">August 3, 2024</span>
+    </li>
+    
+    
+</ul>
+
+
+        </div>
+    </main>
+
+    <div class="img-zoom-overlay" id="img-zoom-overlay">
+        <img id="img-zoom-img" src="" alt="">
+    </div>
+    <script>
+        (function () {
+            var overlay = document.getElementById('img-zoom-overlay');
+            var overlayImg = document.getElementById('img-zoom-img');
+
+            function open(src, alt) {
+                overlayImg.src = src;
+                overlayImg.alt = alt || '';
+                overlay.classList.add('is-open');
+            }
+
+            function close() {
+                overlay.classList.remove('is-open');
+                overlayImg.src = '';
+            }
+
+            document.querySelectorAll('.post img').forEach(function (img) {
+                img.addEventListener('click', function () {
+                    open(img.currentSrc || img.src, img.alt);
+                });
+            });
+
+            overlay.addEventListener('click', close);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') close();
+            });
+        })();
+    </script>
+</body>
+
+</html>

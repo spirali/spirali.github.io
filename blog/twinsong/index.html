@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ada's Blog</title>
+    <link rel="stylesheet" href="https://spirali.github.io/style.css">    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous"></head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-content">
+                <a href="/" class="brand">
+                    <img src="https://spirali.github.io/logo.jpg" alt="Logo" class="logo">
+                    <h1 class="blog-title">Ada's Blog</h1>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="/">About</a></li>
+                    <li><a href="/blog/">Posts</a></li>
+                    <li><a href="https://github.com/spirali">Github</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content">
+            
+<div class="post"><h1 class="title">
+        Twinsong: Breaking the Constraints of Linear Notebook Environments
+    </h1>
+    <p class="subtitle">April 13, 2025</p>
+    <p>Interactive notebooks, like Jupyter, have become indispensable tools for data scientists, researchers, and developers. They offer a fantastic environment for exploration, experimentation, and sharing results. However, as workflows become more complex, many of us start bumping into the limitations inherent in their traditional linear, cell-based structure.</p>
+<p>I've spent countless hours in notebooks, and like many others, I've felt the friction points: losing track of execution state, accidentally overwriting variables in the global scope, struggling with outputs breaking the flow of my code, and wrestling with <code>.ipynb</code> files in Git. These weren't just minor annoyances; they felt like fundamental constraints hindering productivity and reproducibility, especially on larger projects.</p>
+<p>Could we design an interactive environment differently? Could we keep the good parts of notebooks while addressing these core issues? That's the question that sparked <strong>Twinsong</strong>, my experimental, open-source alternative to Jupyter.</p>
+<p><strong>GitHub: <a rel="external" href="https://github.com/spirali/twinsong">github.com/spirali/twinsong</a></strong></p>
+<h2 id="example">Example</h2>
+<p>Let's examine a common issue with traditional notebooks. Take a look at this example:</p>
+<p>
+<img src="example1.png" width="20%"/>
+</p>
+<p>What will be the output when we evaluate the last cell? The answer is: it depends. It could be "2" if all cells were executed in sequence. But it could also be "1" if we had evaluated the first two cells previously, then reset the kernel and evaluated just the first cell before running the last cell.
+The cell execution numbering doesn't help either - notice how [1] is from the current kernel run, while [2] is from a previous kernel run that no longer affects our current memory state.</p>
+<h2 id="breaking-free-from-linearity-decoupling-code-and-output">Breaking Free from Linearity: Decoupling Code and Output</h2>
+<p>One of the first things I wanted to address was the tight coupling of code and output within the same linear document. In Twinsong, the approach is different:</p>
+<ul>
+<li><strong>Your code stays clean:</strong> Code resides in a dedicated pane on the left.</li>
+<li><strong>Outputs flow chronologically:</strong> Results, plots, and print statements appear in a separate pane on the right, ordered by execution time.</li>
+</ul>
+<p>This simple decoupling has profound effects:</p>
+<ol>
+<li><strong>Preserved History:</strong> Run a cell multiple times? You get multiple outputs. The previous results aren't lost, making comparison easy. Outputs from different kernel runs are not mixed. Also each output cell remembers the code that was executed to get it.</li>
+<li><strong>Uninterrupted Code Flow:</strong> Long dataframes or complex plots no longer push your subsequent code cells off the screen. Your code remains contiguous and readable.</li>
+<li><strong>Clearer State:</strong> The chronological output log provides a clearer picture of what actually ran and in what order.</li>
+</ol>
+<p class="center">
+<img src="screenshot1.png" width="100%"/>
+</p>
+<h2 id="structure-for-complexity-hierarchy-and-scoping">Structure for Complexity: Hierarchy and Scoping</h2>
+<p>Real-world analysis rarely fits into a neat, flat list of cells. We think in terms of phases: initialization, data loading, feature engineering, modeling, evaluation. Twinsong embraces this through <strong>hierarchical code organization</strong>:</p>
+<ul>
+<li><strong>Tree Structure:</strong> You can nest code blocks arbitrarily, much like folders and files. Organize your work into logical sections like <code>init</code>, <code>data_processing</code>, <code>modeling</code>, etc.</li>
+<li><strong>Batch Evaluation:</strong> Run an entire subtree (e.g., everything under <code>init</code>) with a single command – no more manually stepping through setup cells.</li>
+<li><strong>Hierarchical Scoping:</strong> By default, nested blocks see variables from their parents. However, you can designate a block to have its <strong>"Private Scope"</strong>. Variables created within that block <em>stay local</em> to it, preventing accidental pollution of the global or parent namespaces – a common source of bugs in traditional notebooks<sup class="footnote-reference"><a href="#1">1</a></sup>.</li>
+</ul>
+<p class="center">
+<img src="screenshot2.png" width="60%"/>
+</p>
+<h3 id="example-of-scoping">Example of Scoping</h3>
+<p>Consider the notebook structure in the screenshot:</p>
+<ul>
+<li>Executing the <code>init</code> block defines <code>pd</code> (pandas alias) and <code>iris</code> (DataFrame) in the parent <code>project</code> scope.</li>
+<li>The <code>main</code> block, marked with a "bubble" icon, has a <strong>Private Scope</strong>.</li>
+<li>When the code within <code>main</code> runs, it successfully accesses <code>iris</code> from its parent (<code>project</code>) scope.</li>
+<li>However, the newly created <code>means</code> variable exists <em>only</em> within the private scope of <code>main</code> (and any potential children it might have).</li>
+<li>Therefore, <code>means</code> is <em>not</em> accessible from the <code>project</code> scope or other branches. This localization is key to preventing variable name collisions and keeping different analysis steps cleanly separated.</li>
+</ul>
+<h2 id="managing-runs-and-understanding-state">Managing Runs and Understanding State</h2>
+<p>Twinsong introduces a couple more features to aid complex workflows:</p>
+<ul>
+<li><strong>Multiple "Runs":</strong> Need to compare results with slightly different parameters? Or run a long computation while experimenting elsewhere? Twinsong allows multiple independent kernel instances ("Runs") within the same notebook view. Each run has its own isolated memory space and output history.</li>
+<li><strong>Detailed Workspace:</strong> Go beyond just seeing variable names. The "Workspace" tab provides an interactive, tree-like view of your variables, allowing you to inspect the contents of lists, dictionaries, and dataclasses easily.</li>
+</ul>
+<p class="center">
+<img src="screenshot3.png" width="100%"/>
+</p>
+<h2 id="collaboration-and-implementation">Collaboration and Implementation</h2>
+<p>Collaboration is often painful with notebooks. Twinsong aims to ease this:</p>
+<ul>
+<li><strong>Git-Friendly Format:</strong> Crucially, code and the outputs from different "Runs" live in separate files. This means cleaner diffs – changes to code don't conflict with changes in output, and you can choose to version only the code or specific runs. Twinsong data are also stored in TOML format, which provides easier merge conflict resolution compared to JSON.</li>
+</ul>
+<p>Under the hood, Twinsong uses a Rust-based backend for performance and reliability. The Python kernel implementation is deliberately "clean" – it avoids loading Python modules itself. Since Python can load only a single version of each package, you will get into a trouble in Jupyter when your code wants to use a different version of a package than the one the kernel uses.</p>
+<h2 id="experimental-but-evolving">Experimental, But Evolving</h2>
+<p>Twinsong is still <strong>experimental</strong>. The core ideas are implemented and it should be usable for smaller projects. However, there's much more to do. The UI needs polish (e.g., more keyboard shortcuts), integration with popular visualization libraries like Matplotlib and Plotly isn't ready yet, and features like hot reloading are on the roadmap.</p>
+<p>Currently, only Python is supported. While the architecture could support other languages, the focus is on refining the Python experience first, which requires a custom kernel implementation due to Twinsong's properties.</p>
+<h2 id="give-it-a-try">Give it a Try!</h2>
+<p>If these ideas resonate with you, I invite you to try Twinsong:</p>
+<ol>
+<li>Install it: <code>pip install twinsong</code></li>
+<li>Run it: <code>twinsong</code> (this starts the local server)</li>
+</ol>
+<p>Explore the concepts, see if it fits your workflow, and check out the repository for more details and examples:</p>
+<p><strong><a rel="external" href="https://github.com/spirali/twinsong">github.com/spirali/twinsong</a></strong></p>
+<p>Twinsong is an experiment in rethinking how we interact with code and data. Feedback and contributions are welcome!</p>
+<h2 id="footnotes">Footnotes</h2>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>How many global variables does evaluation of the following cell create?</p>
+</div>
+<pre class="giallo" style="color: #E1E4E8; background-color: #24292E;"><code data-lang="python"><span class="giallo-l"><span>total_sum</span><span style="color: #F97583;"> =</span><span style="color: #79B8FF;"> 0</span></span>
+<span class="giallo-l"><span style="color: #F97583;">for</span><span> item</span><span style="color: #F97583;"> in</span><span> [</span><span style="color: #79B8FF;">1</span><span>,</span><span style="color: #79B8FF;"> 2</span><span>,</span><span style="color: #79B8FF;"> 3</span><span>]:</span></span>
+<span class="giallo-l"><span>	total_sum</span><span style="color: #F97583;"> +=</span><span> item</span></span></code></pre>
+<p>The answer is two variables: <code>total_sum</code> and <code>item</code>. In notebooks, you typically don't want variable item polluting your global namespace, but it does anyway. Twinsong's scoping system helps address this issue.</p>
+
+</div>
+
+        </div>
+    </main>
+
+    <div class="img-zoom-overlay" id="img-zoom-overlay">
+        <img id="img-zoom-img" src="" alt="">
+    </div>
+    <script>
+        (function () {
+            var overlay = document.getElementById('img-zoom-overlay');
+            var overlayImg = document.getElementById('img-zoom-img');
+
+            function open(src, alt) {
+                overlayImg.src = src;
+                overlayImg.alt = alt || '';
+                overlay.classList.add('is-open');
+            }
+
+            function close() {
+                overlay.classList.remove('is-open');
+                overlayImg.src = '';
+            }
+
+            document.querySelectorAll('.post img').forEach(function (img) {
+                img.addEventListener('click', function () {
+                    open(img.currentSrc || img.src, img.alt);
+                });
+            });
+
+            overlay.addEventListener('click', close);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') close();
+            });
+        })();
+    </script>
+</body>
+
+</html>
