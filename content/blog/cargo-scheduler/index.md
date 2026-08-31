@@ -79,6 +79,7 @@ But how far are we from the actual optimum? Unfortunately, this scheduling probl
 
 The chart shows b-level and cargo, both divided by the pseudo-optimum, so 1.0 means "as good as the best schedule we found". At n=4, b-level lands at a median of about 1.3% above the pseudo-optimum (worst case 3.3%), while cargo is at a median of about 9.6% above it (worst case just over 20%). At n=16, b-level is a median of 0.4% above (worst case 1.3%), cargo a median of 2.3% above (worst case as high as 17.5%). So a simple greedy heuristic that just picks the highest b-level task turns out to already be very close to what much more expensive search can find.
 
+
 ## Is it really feasible?
 
 The whole approach has one obvious problem: it assumes we know each task's execution time in advance. In reality, we don't have exact numbers; at best we have some rough, historical estimate.
@@ -160,3 +161,44 @@ And if we are just focused on mean value, then we do not need even this bit.
 That makes the whole idea rather practical. A small local database of timings from past builds should already be good enough, and it could be bootstrapped from a shared global database of crate build times, so that even the first build on a fresh machine has something to work with. Judging by the one-bit experiment, such a database would not even have to store durations; a "fast crate" / "slow crate" flag per crate is already useful. And when there is nothing to look up at all, falling back to plain graph depth seems to be a reasonable default.
 
 The other message from this is that there is probably not much left to gain from a cleverer scheduling strategy. Every simple alternative I tried was worse than plain b-level or, at best, matched it, and the expensive searches only found schedules about 1.3% (n=4) and 0.4% (n=16) better than what b-level produces straight away.
+
+## Appendix
+
+The following part reflects comments on this post on [Reddit](https://www.reddit.com/r/rust/comments/1w37hnh/could_cargos_scheduler_be_better/).
+
+In the discussion, two ways of guessing a compile time without measuring it came up: use the size of a crate's source code, or use its number of dependencies. 
+
+### Size of the source code
+
+I have tried two sizes:
+
+* Size of tarball on crates.io
+* LoC reported on crates.io + my computation of LoC that computes C, C++, assembly. The code on common paths for tests was skipped.
+
+We use these in two schedulers "size b-level" (for tarball size) and "loc b-level" where LoC of Rust code is used
+as rustc runtime estimator and the number of C/C++ lines of code is used as build.rs time estimator.
+
+
+For completeness, let us look at Rust LoC vs Rust part compile time:
+
+<p class="center">
+<img src="loc-vs-time.png" width="100%"/>
+</p>
+
+
+### Number of dependencies
+
+
+<p class="center">
+<img src="deps-vs-time.png" width="100%"/>
+</p>
+
+The spread is quite big so it is no chance to define "this crate is short" for some threshold.
+But for fun, let us include "deps b-level" where the number of dependencies is used as a time estimator.
+
+
+### Results
+
+<p class="center">
+<img src="free-estimates.png" width="100%"/>
+</p>
